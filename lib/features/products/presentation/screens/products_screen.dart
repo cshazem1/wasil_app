@@ -46,19 +46,24 @@ class _ProductPageState extends State<ProductPage> {
       ),
       body: Column(
         children: [
-          ProductSearchBar(onSearch: (keyword) async {
-         await _productCubit.fetchProducts(isRefresh: true,
-              filterType: FilterType.search,
-              search: keyword,
-            );
-
-          },),
-          SizedBox(height: 12,),
-          SortPriceWidget(onSortChanged: (sortType ) async {
-            await _productCubit.fetchProducts(isRefresh: true,
-              sortType: sortType,
-            );
-          },),
+          ProductSearchBar(
+            onSearch: (keyword) async {
+              await _productCubit.fetchProducts(
+                isRefresh: true,
+                filterType: FilterType.search,
+                search: keyword,
+              );
+            },
+          ),
+          SizedBox(height: 12),
+          SortPriceWidget(
+            onSortChanged: (sortType) async {
+              await _productCubit.fetchProducts(
+                isRefresh: true,
+                sortType: sortType,
+              );
+            },
+          ),
 
           Expanded(
             child: BlocBuilder<ProductCubit, ProductState>(
@@ -68,8 +73,11 @@ class _ProductPageState extends State<ProductPage> {
                 } else if (state is ProductError && allProducts.isEmpty) {
                   return Center(
                     child: RefreshIndicator(
-                      onRefresh: () => _productCubit.fetchProducts(isRefresh: true),
-                      child: ListView(children: [Center(child: Text(state.message))]),
+                      onRefresh: () =>
+                          _productCubit.fetchProducts(isRefresh: true),
+                      child: ListView(
+                        children: [Center(child: Text(state.message))],
+                      ),
                     ),
                   );
                 } else if (state is ProductLoaded ||
@@ -93,5 +101,3 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 }
-
-

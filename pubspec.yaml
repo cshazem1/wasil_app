@@ -31,15 +31,19 @@ dependencies:
   #Injectable is a convenient code generator for get_it. Inspired by Angular DI, Guice DI and inject.dart.
   injectable: ^2.5.0
   dartz: ^0.10.1
+  # database written in pure Dart
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
     #Injectable is a convenient code generator for get_it. Inspired by Angular DI, Guice DI and inject.dart.
-  injectable_generator: ^2.7.0
+  injectable_generator: 2.6.2
   flutter_lints: ^5.0.0
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.5.4
+  hive_generator: ^2.0.1
 
 
 flutter:
