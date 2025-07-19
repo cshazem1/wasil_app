@@ -1,10 +1,13 @@
 import 'package:injectable/injectable.dart';
+import 'package:wasil_task/core/network/end_points.dart';
 import 'package:wasil_task/features/products/domain/entites/get_product_params.dart';
 import '../../../../core/network/api_service.dart';
+import '../../domain/enums/filter_type.dart';
+import '../../domain/enums/sort_type.dart';
 import '../models/products_model.dart';
 
 abstract class ProductDataSource {
-  Future<ProductsModel> getProducts(GetProductParams params,);
+  Future<ProductsModel> getProducts(GetProductParams params);
 }
 
 @LazySingleton(as: ProductDataSource)
@@ -15,13 +18,19 @@ class ProductDataSourceImpl implements ProductDataSource {
 
   @override
   Future<ProductsModel> getProducts(GetProductParams params) async {
-    final skip = (params.page - 1) * params.limit;
-
+    final skip = (params.page! - 1) * params.limit!;
+String url =params.filterType == FilterType.search ? EndPoints.search : EndPoints.products;
     final response = await apiService.get(
-      'products',
+      url,
       queryParameters: {
+        if (params.filterType case FilterType.search) ...{'q': params.search},
+
         'limit': params.limit,
         'skip': skip,
+        if (params.sortType case SortType.priceAsc || SortType.priceDesc) ...{
+          'sortBy': 'price',
+          'order': params.sortType == SortType.priceAsc ? 'asc' : 'desc',
+        },
       },
     );
 

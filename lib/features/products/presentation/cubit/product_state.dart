@@ -5,23 +5,22 @@ sealed class ProductState extends Equatable{}
 
 final class ProductInitial extends ProductState {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class ProductLoading extends ProductState {
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class ProductLoaded extends ProductState {
   final List<ProductEntity> products;
-  final int total;
 
-   ProductLoaded({required this.products, required this.total});
+   ProductLoaded({required this.products, });
 
   @override
-  List<Object?> get props => [products, total];
+  List<Object?> get props => [products];
 }
 
 class ProductLoadingMore extends ProductState {
@@ -39,6 +38,5 @@ class ProductError extends ProductState {
 
   @override
   List<Object?> get props => [message];
-
 
 }

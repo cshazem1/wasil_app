@@ -22,6 +22,7 @@ class GetProductsUseCase
   Future<Either<Failure, ProductsResponseEntity>> call(
     GetProductParams params,
   ) {
+    print("RSFFFSFSF${params.page}");
     return repository.getProducts(params);
   }
 }

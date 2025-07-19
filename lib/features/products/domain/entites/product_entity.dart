@@ -8,5 +8,8 @@ class ProductEntity {
     required this.title,
     required this.description,
     required this.price,
+    required this.image
   });
+
+  final String  image;
 }

@@ -9,9 +9,9 @@ class Dimensions {
     height = json['height'];
     depth = json['depth'];
   }
-  double? width;
-  double? height;
-  double? depth;
+  num? width;
+  num? height;
+  num? depth;
 
 
 

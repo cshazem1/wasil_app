@@ -5,35 +5,55 @@ import 'package:meta/meta.dart';
 
 import '../../domain/entites/get_product_params.dart';
 import '../../domain/entites/product_entity.dart';
+import '../../domain/enums/filter_type.dart';
+import '../../domain/enums/sort_type.dart';
 import '../../domain/use_cases/get_products_usecase.dart';
 
 part 'product_state.dart';
+
 @LazySingleton()
 class ProductCubit extends Cubit<ProductState> {
   ProductCubit(this.getProductsUseCase) : super(ProductInitial());
+
   final GetProductsUseCase getProductsUseCase;
 
-  int _page = 1;
+  int page = 1;
   final int _limit = 10;
   int _total = 0;
   bool _isLoadingMore = false;
   final List<ProductEntity> _products = [];
 
+  // 👇 إضافة متغير لتخزين آخر params
+  GetProductParams _currentParams = GetProductParams();
 
-  Future<void> fetchProducts({bool isRefresh = false}) async {
+  Future<void> fetchProducts({
+    bool isRefresh = false,
+    String? search,
+    SortType? sortType,
+    FilterType? filterType,
+  }) async {
     if (state is ProductLoading || _isLoadingMore) return;
 
     if (isRefresh) {
-      _page = 1;
+      page = 1;
       _products.clear();
       _total = 0;
       emit(ProductLoading());
     } else {
       _isLoadingMore = true;
-      emit(ProductLoadingMore(products: _products)); // new state
+      emit(ProductLoadingMore(products: _products));
     }
+print("DSDDSDSD${search}");
+    _currentParams = _currentParams.copyWith(
+      page: page,
+      limit: _limit,
+      search: (search == null || search=='null'||search=='') ? null : search,
+      filterType: (search == null || search=='null'||search=='') ? null : filterType,
+      sortType: sortType,
+    );
 
-    final result = await getProductsUseCase(GetProductParams( _page,  _limit));
+
+    final result = await getProductsUseCase(_currentParams);
 
     result.fold(
           (failure) {
@@ -44,12 +64,11 @@ class ProductCubit extends Cubit<ProductState> {
         _isLoadingMore = false;
         _total = response.total;
         _products.addAll(response.products);
-        emit(ProductLoaded(products: _products, total: _total));
-        _page++;
+        emit(ProductLoaded(products: _products));
+        page++;
       },
     );
   }
 
   bool get hasMore => _products.length < _total;
-
 }

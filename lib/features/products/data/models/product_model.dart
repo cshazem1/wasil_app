@@ -62,7 +62,7 @@ class ProductModel {
   String? description;
   String? category;
   double? price;
-  double? discountPercentage;
+  num? discountPercentage;
   double? rating;
   int? stock;
   List<String>? tags;
@@ -85,5 +85,6 @@ class ProductModel {
     title: title??"",
     description: description?? "",
     price: price??0.0,
+    image: images?[0]?? "",
 
   );}

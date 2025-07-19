@@ -14,7 +14,6 @@ class  ProductRepositoriesImpl extends ProductRepository{
   ProductRepositoriesImpl({required this.dataSource});
   @override
   Future<Either<Failure, ProductsResponseEntity>> getProducts(GetProductParams params) async {
-    try{
     final model = await dataSource.getProducts(params);
     
       final List<ProductEntity> entities =model.products!.map<ProductEntity>((e) => e.toEntity()).toList();
@@ -24,10 +23,8 @@ class  ProductRepositoriesImpl extends ProductRepository{
         total: model.total ?? 0,
       ));
     }
-    catch(e){
-      return Left(appFailure(appException(exception: e)));
-    }
+
     
-  }
+
 
 }
