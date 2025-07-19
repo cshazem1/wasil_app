@@ -16,7 +16,7 @@ class GenericAppException extends AppException {
   const GenericAppException({required super.message});
 }
 
-AppException mapAppException({required Object exception}) {
+AppException appException({required Object exception}) {
   if (exception is AppException) {
     return exception;
   } else if (exception is SocketException) {
