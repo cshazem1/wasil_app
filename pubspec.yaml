@@ -30,6 +30,7 @@ dependencies:
   firebase_auth: ^5.6.2
   #Injectable is a convenient code generator for get_it. Inspired by Angular DI, Guice DI and inject.dart.
   injectable: ^2.5.0
+  dartz: ^0.10.1
 
 dev_dependencies:
   flutter_test:
