@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-void main() {
+import 'core/injectable/get_it.dart';
+
+void main()  {
+  WidgetsFlutterBinding.ensureInitialized();
+   configureDependencies();
   runApp(const WasilTaskApp());
 }
 class WasilTaskApp extends StatelessWidget {
