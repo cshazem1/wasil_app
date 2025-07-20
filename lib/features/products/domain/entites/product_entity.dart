@@ -1,3 +1,5 @@
+import 'package:wasil_task/features/cart/domain/entities/cart_item.dart';
+
 class ProductEntity {
   final int id;
   final String title;
@@ -12,4 +14,7 @@ class ProductEntity {
   });
 
   final String  image;
+CartItemEntity  toCartEntity(){
+  return CartItemEntity(productId: id, name: title, price: price, image: image, description: description);
+}
 }

@@ -26,6 +26,18 @@ import 'package:wasil_task/features/cart/domain/repositories/cart_repository.dar
     as _i152;
 import 'package:wasil_task/features/cart/domain/use_case/add_to_cart_usecase.dart'
     as _i40;
+import 'package:wasil_task/features/cart/domain/use_case/clear_cart_usecase.dart'
+    as _i35;
+import 'package:wasil_task/features/cart/domain/use_case/decrease_quantity_usecase.dart'
+    as _i80;
+import 'package:wasil_task/features/cart/domain/use_case/get_cart_items_usecase.dart'
+    as _i487;
+import 'package:wasil_task/features/cart/domain/use_case/increase_quantity_usecase.dart'
+    as _i276;
+import 'package:wasil_task/features/cart/domain/use_case/remove_from_cart_usecase.dart'
+    as _i90;
+import 'package:wasil_task/features/cart/presentation/cubit/cart_cubit.dart'
+    as _i729;
 import 'package:wasil_task/features/products/data/data_sources/product_data_source.dart'
     as _i148;
 import 'package:wasil_task/features/products/data/repositories/product_repositories_impl.dart'
@@ -53,7 +65,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i979.Box<_i798.CartItemModel>>(() => hiveModule.cartBox);
     gh.lazySingleton<_i578.ApiService>(
         () => _i578.ApiServiceImpl(gh<_i394.DioHelper>()));
-    gh.lazySingleton<_i230.CartLocalDataSourceImpl>(() =>
+    gh.lazySingleton<_i523.CartLocalDataSource>(() =>
         _i230.CartLocalDataSourceImpl(gh<_i979.Box<_i798.CartItemModel>>()));
     gh.lazySingleton<_i152.CartRepository>(
         () => _i344.CartRepositoryImpl(gh<_i523.CartLocalDataSource>()));
@@ -64,6 +76,24 @@ extension GetItInjectableX on _i174.GetIt {
             dataSource: gh<_i148.ProductDataSource>()));
     gh.lazySingleton<_i40.AddToCartUseCase>(
         () => _i40.AddToCartUseCase(gh<_i152.CartRepository>()));
+    gh.lazySingleton<_i35.ClearCartUseCase>(
+        () => _i35.ClearCartUseCase(gh<_i152.CartRepository>()));
+    gh.lazySingleton<_i487.GetCartItemsUseCase>(
+        () => _i487.GetCartItemsUseCase(gh<_i152.CartRepository>()));
+    gh.lazySingleton<_i90.RemoveFromCartUseCase>(
+        () => _i90.RemoveFromCartUseCase(gh<_i152.CartRepository>()));
+    gh.lazySingleton<_i80.DecreaseQuantityUseCase>(
+        () => _i80.DecreaseQuantityUseCase(gh<_i152.CartRepository>()));
+    gh.lazySingleton<_i276.IncreaseQuantityUseCase>(
+        () => _i276.IncreaseQuantityUseCase(gh<_i152.CartRepository>()));
+    gh.lazySingleton<_i729.CartCubit>(() => _i729.CartCubit(
+          gh<_i40.AddToCartUseCase>(),
+          gh<_i35.ClearCartUseCase>(),
+          gh<_i487.GetCartItemsUseCase>(),
+          gh<_i90.RemoveFromCartUseCase>(),
+          gh<_i276.IncreaseQuantityUseCase>(),
+          gh<_i80.DecreaseQuantityUseCase>(),
+        ));
     gh.lazySingleton<_i744.GetProductsUseCase>(
         () => _i744.GetProductsUseCase(gh<_i1052.ProductRepository>()));
     gh.lazySingleton<_i398.ProductCubit>(

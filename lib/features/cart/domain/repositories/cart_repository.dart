@@ -5,4 +5,6 @@ abstract class CartRepository {
   Future<void> removeFromCart(int productId);
   Future<void> clearCart();
   List<CartItemEntity> getCartItems();
+  Future<void> increaseQuantity(int productId);
+  Future<void> decreaseQuantity(int productId);
 }

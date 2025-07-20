@@ -53,4 +53,20 @@ class CartItemModel extends HiveObject {
       description: item.description,
     );
   }
+  CartItemModel copyWith({
+    int? productId,
+    String? name,
+    int? quantity,
+    double? price,
+    String? image,
+    String? description,
+  }) {
+    return CartItemModel(
+      productId: productId ?? this.productId,
+      name: name ?? this.name,
+      quantity: quantity ?? this.quantity,
+      price: price ?? this.price,
+      image: image ?? this.image,
+      description: description ?? this.description,
+    );}
 }

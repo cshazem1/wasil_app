@@ -5,4 +5,6 @@ abstract class CartLocalDataSource {
   Future<void> removeFromCart(int productId);
   Future<void> clearCart();
   List<CartItemModel> getCartItems();
+  Future<void> increaseQuantity(int productId);
+  Future<void> decreaseQuantity(int productId);
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasil_task/features/products/presentation/widgets/product_item.dart';
 
 import '../../domain/entites/product_entity.dart';
 import '../cubit/product_cubit.dart';
@@ -41,46 +42,7 @@ class _ListViewBuilderProductState extends State<ListViewBuilderProduct> {
         if (index < widget.products.length) {
           final product = widget.products[index];
 
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 2,
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(12),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  product.image,
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.cover,
-                  errorBuilder: (c, e, s) => Icon(Icons.broken_image),
-                ),
-              ),
-              title: Text(product.title),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    "\$${product.price.toStringAsFixed(2)}",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              trailing: ElevatedButton(
-                onPressed: () {},
-                child: const Text("Add to Cart"),
-              ),
-            ),
-          );
+          return ProductItem(product:product);
         } else {
           final state = context.watch<ProductCubit>().state;
           // Footer (Loading or Retry)

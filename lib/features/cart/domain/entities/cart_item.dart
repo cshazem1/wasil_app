@@ -9,11 +9,29 @@ class CartItemEntity {
   CartItemEntity({
     required this.productId,
     required this.name,
-    required this.quantity,
+    this.quantity = 1,
     required this.price,
     required this.image,
     required this.description,
   });
 
   double get total => price * quantity;
+
+  CartItemEntity copyWith({
+    int? productId,
+    String? name,
+    int? quantity,
+    double? price,
+    String? image,
+    String? description,
+  }) {
+    return CartItemEntity(
+      productId: productId ?? this.productId,
+      name: name ?? this.name,
+      quantity: quantity ?? this.quantity,
+      price: price ?? this.price,
+      image: image ?? this.image,
+      description: description ?? this.description,
+    );
+  }
 }

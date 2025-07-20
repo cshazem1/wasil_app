@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasil_task/core/routes/app_router.dart';
+import 'package:wasil_task/core/utils/extensions.dart';
+import 'package:wasil_task/features/cart/presentation/cubit/cart_cubit.dart';
 
+import '../../../../core/routes/app_routes.dart';
+import '../../../cart/domain/entities/cart_item.dart';
 import '../../domain/entites/get_product_params.dart';
 import '../../domain/entites/product_entity.dart';
 import '../../domain/enums/filter_type.dart';
@@ -17,10 +22,11 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  final Map<String, int> cart = {};
+    List<CartItemEntity> cart =[];
 
   List<ProductEntity> allProducts = [];
   late ProductCubit _productCubit;
+
   @override
   initState() {
     super.initState();
@@ -40,7 +46,20 @@ class _ProductPageState extends State<ProductPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Center(child: Text("Cart: ${cart.length}")),
+            child: BlocConsumer<CartCubit, CartState>(
+              listener: (context, state) {
+                if (state is CartLoaded){
+                  cart=state.items;
+                }
+              },
+              builder: (context, state) {
+                return GestureDetector(
+                    onTap: () {
+                      context.pushNamed(AppRoutes.cart);
+                    },
+                    child: Center(child: Text("Cart: ${cart.length}")));
+              },
+            ),
           ),
         ],
       ),

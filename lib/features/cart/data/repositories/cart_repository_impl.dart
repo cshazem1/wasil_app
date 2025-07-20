@@ -27,4 +27,9 @@ class CartRepositoryImpl implements CartRepository {
 
   @override
   Future<void> removeFromCart(int productId) => local.removeFromCart(productId);
+  @override
+  Future<void> increaseQuantity(int productId) => local.increaseQuantity(productId);
+
+  @override
+  Future<void> decreaseQuantity(int productId) => local.decreaseQuantity(productId);
 }
