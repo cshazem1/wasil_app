@@ -43,8 +43,9 @@ Splash screen that checks the user’s authentication status on app start.
 Redirects authenticated users to the products page.
 
 Sends unauthenticated users to the login page.
+---
 
-###Cart & Guest User Handling
+### Cart & Guest User Handling
 The cart data is stored locally on the device and is separated per user.
 
 When a user is browsing as a guest (not logged in) and adds items to the cart, these items are stored locally under the guest session.
