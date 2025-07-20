@@ -7,36 +7,12 @@ It is organized using feature-based folders and follows best practices with sepa
 
 ---
 
-<style>
-  .image-row {
-    display: flex;
-    gap: 10px; /* space between images */
-    margin-bottom: 10px;
-  }
-  .image-row img {
-    width: 48%; /* roughly half width minus gap */
-    height: auto;
-    object-fit: contain;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-</style>
+| ![IMG-1](https://github.com/user-attachments/assets/d9bbb067-faa4-4064-9a05-d1c783288ee3) | ![IMG-2](https://github.com/user-attachments/assets/ec05b560-1d50-4a65-b9a9-2c7c66a762c8) |
+|---|---|
+| ![IMG-3](https://github.com/user-attachments/assets/60cde28e-5990-49c1-ae5a-f73ec627e728) | ![IMG-4](https://github.com/user-attachments/assets/a4db2f4c-92eb-4877-b800-9a637fcd9047) |
+| ![IMG-5](https://github.com/user-attachments/assets/3dd3b2a7-c3c1-4761-9b87-32e9d6b0b6f3) | ![IMG-6](https://github.com/user-attachments/assets/b585fe35-a160-42f4-b072-3a56fdd5a994) |
+| ![IMG-7](https://github.com/user-attachments/assets/e91e9b87-bb5a-423f-a8b9-466636c272af) |  |
 
-<div class="image-row">
-  <img src="https://github.com/user-attachments/assets/d9bbb067-faa4-4064-9a05-d1c783288ee3" alt="IMG-1" />
-  <img src="https://github.com/user-attachments/assets/ec05b560-1d50-4a65-b9a9-2c7c66a762c8" alt="IMG-2" />
-</div>
-<div class="image-row">
-  <img src="https://github.com/user-attachments/assets/60cde28e-5990-49c1-ae5a-f73ec627e728" alt="IMG-3" />
-  <img src="https://github.com/user-attachments/assets/a4db2f4c-92eb-4877-b800-9a637fcd9047" alt="IMG-4" />
-</div>
-<div class="image-row">
-  <img src="https://github.com/user-attachments/assets/3dd3b2a7-c3c1-4761-9b87-32e9d6b0b6f3" alt="IMG-5" />
-  <img src="https://github.com/user-attachments/assets/b585fe35-a160-42f4-b072-3a56fdd5a994" alt="IMG-6" />
-</div>
-<div class="image-row">
-  <img src="https://github.com/user-attachments/assets/e91e9b87-bb5a-423f-a8b9-466636c272af" alt="IMG-7" />
-</div>
 
 ## Project Structure
 
@@ -68,7 +44,7 @@ Redirects authenticated users to the products page.
 
 Sends unauthenticated users to the login page.
 
-Cart & Guest User Handling
+###Cart & Guest User Handling
 The cart data is stored locally on the device and is separated per user.
 
 When a user is browsing as a guest (not logged in) and adds items to the cart, these items are stored locally under the guest session.
@@ -106,12 +82,5 @@ Each feature folder contains:
 
 - Uses `injectable` package for automatic dependency injection.
 - Firebase services are provided via a dedicated injectable module.
-- Example:
-  ```dart
-  @module
-  abstract class FirebaseInjectableModule {
-    @lazySingleton
-    FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
-  }
 
 
