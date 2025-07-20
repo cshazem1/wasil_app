@@ -12,6 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cached_network_image: ^3.3.1
 
   cupertino_icons: ^1.0.8
   # Flutter plugin for Firebase Core, enabling connecting to multiple Firebase apps.
@@ -34,7 +35,7 @@ dependencies:
   # database written in pure Dart
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-
+  flutter_screenutil: ^5.9.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

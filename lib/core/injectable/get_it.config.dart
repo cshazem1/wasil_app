@@ -8,12 +8,25 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:hive/hive.dart' as _i979;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:wasil_task/core/injectable/hive_module.dart' as _i586;
 import 'package:wasil_task/core/network/api_service.dart' as _i578;
 import 'package:wasil_task/core/network/dio_helper.dart' as _i394;
+import 'package:wasil_task/features/auth/data/data_resource/auth_data_source.dart'
+    as _i563;
+import 'package:wasil_task/features/auth/data/repositories/auth_repository_impl.dart'
+    as _i620;
+import 'package:wasil_task/features/auth/domain/repositories/auth_repository.dart'
+    as _i100;
+import 'package:wasil_task/features/auth/domain/use_case/login_usecase.dart'
+    as _i801;
+import 'package:wasil_task/features/auth/domain/use_case/register_usecase.dart'
+    as _i422;
+import 'package:wasil_task/features/auth/presentation/cubit/auth_cubit.dart'
+    as _i677;
 import 'package:wasil_task/features/cart/data/data_source/cart_local_data_source.dart'
     as _i523;
 import 'package:wasil_task/features/cart/data/data_source/cart_local_data_source_impl.dart'
@@ -44,10 +57,14 @@ import 'package:wasil_task/features/products/data/repositories/product_repositor
     as _i323;
 import 'package:wasil_task/features/products/domain/repositories/product_repository.dart'
     as _i1052;
+import 'package:wasil_task/features/products/domain/use_cases/get_product_details_usecase.dart'
+    as _i877;
 import 'package:wasil_task/features/products/domain/use_cases/get_products_usecase.dart'
     as _i744;
-import 'package:wasil_task/features/products/presentation/cubit/product_cubit.dart'
-    as _i398;
+import 'package:wasil_task/features/products/presentation/cubit/product_cubit/product_cubit.dart'
+    as _i445;
+import 'package:wasil_task/features/products/presentation/cubit/product_details_cubit/product_details_cubit.dart'
+    as _i531;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -61,16 +78,24 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final hiveModule = _$HiveModule();
-    gh.lazySingleton<_i394.DioHelper>(() => _i394.DioHelper());
+    final authDataSource = _$AuthDataSource();
     gh.lazySingleton<_i979.Box<_i798.CartItemModel>>(() => hiveModule.cartBox);
+    gh.lazySingleton<_i394.DioHelper>(() => _i394.DioHelper());
+    gh.lazySingleton<_i59.FirebaseAuth>(() => authDataSource.firebaseAuth);
     gh.lazySingleton<_i578.ApiService>(
         () => _i578.ApiServiceImpl(gh<_i394.DioHelper>()));
-    gh.lazySingleton<_i523.CartLocalDataSource>(() =>
-        _i230.CartLocalDataSourceImpl(gh<_i979.Box<_i798.CartItemModel>>()));
+    gh.lazySingleton<_i523.CartLocalDataSource>(
+        () => _i230.CartLocalDataSourceImpl());
     gh.lazySingleton<_i152.CartRepository>(
         () => _i344.CartRepositoryImpl(gh<_i523.CartLocalDataSource>()));
     gh.lazySingleton<_i148.ProductDataSource>(
         () => _i148.ProductDataSourceImpl(apiService: gh<_i578.ApiService>()));
+    gh.lazySingleton<_i100.AuthRepository>(
+        () => _i620.AuthRepositoryImpl(gh<_i59.FirebaseAuth>()));
+    gh.lazySingleton<_i801.LoginUseCase>(
+        () => _i801.LoginUseCase(gh<_i100.AuthRepository>()));
+    gh.lazySingleton<_i422.RegisterUseCase>(
+        () => _i422.RegisterUseCase(gh<_i100.AuthRepository>()));
     gh.lazySingleton<_i1052.ProductRepository>(() =>
         _i323.ProductRepositoriesImpl(
             dataSource: gh<_i148.ProductDataSource>()));
@@ -94,12 +119,22 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i276.IncreaseQuantityUseCase>(),
           gh<_i80.DecreaseQuantityUseCase>(),
         ));
+    gh.factory<_i677.AuthCubit>(() => _i677.AuthCubit(
+          gh<_i801.LoginUseCase>(),
+          gh<_i422.RegisterUseCase>(),
+        ));
     gh.lazySingleton<_i744.GetProductsUseCase>(
         () => _i744.GetProductsUseCase(gh<_i1052.ProductRepository>()));
-    gh.lazySingleton<_i398.ProductCubit>(
-        () => _i398.ProductCubit(gh<_i744.GetProductsUseCase>()));
+    gh.lazySingleton<_i877.GetProductDetailsUseCase>(
+        () => _i877.GetProductDetailsUseCase(gh<_i1052.ProductRepository>()));
+    gh.factory<_i445.ProductCubit>(
+        () => _i445.ProductCubit(gh<_i744.GetProductsUseCase>()));
+    gh.factory<_i531.ProductDetailsCubit>(
+        () => _i531.ProductDetailsCubit(gh<_i877.GetProductDetailsUseCase>()));
     return this;
   }
 }
 
 class _$HiveModule extends _i586.HiveModule {}
+
+class _$AuthDataSource extends _i563.AuthDataSource {}

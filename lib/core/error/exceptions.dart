@@ -68,7 +68,7 @@ AppException _firebaseExceptions(FirebaseException exception) {
       message = "Account exists with different credentials.";
       break;
     case 'invalid-credential':
-      message = "Invalid credentials provided.";
+      message = "The email or password is incorrect. Please check your credentials and try again.";
       break;
     case 'operation-not-allowed':
       message = "This operation is not allowed.";

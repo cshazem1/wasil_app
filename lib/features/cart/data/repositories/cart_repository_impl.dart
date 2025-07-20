@@ -20,8 +20,8 @@ class CartRepositoryImpl implements CartRepository {
   Future<void> clearCart() => local.clearCart();
 
   @override
-  List<CartItemEntity> getCartItems() {
-    final models = local.getCartItems();
+  Future<List<CartItemEntity>> getCartItems() async {
+    final models =await local.getCartItems();
     return models.map((model) => model.toEntity()).toList();
   }
 

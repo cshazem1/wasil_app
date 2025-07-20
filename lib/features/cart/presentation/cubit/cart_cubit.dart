@@ -24,11 +24,13 @@ class CartCubit extends Cubit<CartState> {
 
 
   Future<void> loadCart() async {
+    emit(CartInitial());
     final items =await _getCartItemsUseCase(NoParams());
     emit(CartLoaded(items));
   }
 
   Future<void> addItem(CartItemEntity item) async {
+    print("RWESFGSFAHHSFAFH${item.stock}");
     await _addToCartUseCase(item);
     loadCart();
   }

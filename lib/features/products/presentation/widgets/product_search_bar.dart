@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/styles/app_text_style.dart';
 
 class ProductSearchBar extends StatefulWidget {
   final void Function(String keyword)? onSearch;
-  final void Function(String category)? onCategorySelected;
 
   const ProductSearchBar({
     super.key,
     this.onSearch,
-    this.onCategorySelected,
   });
 
   @override
@@ -16,28 +17,18 @@ class ProductSearchBar extends StatefulWidget {
 
 class _ProductSearchBarState extends State<ProductSearchBar> {
   final _controller = TextEditingController();
-  String selectedCategory = 'All';
-
-  final List<String> categories = [
-    'All',
-    'smartphones',
-    'laptops',
-    'fragrances',
-    'skincare',
-    'groceries',
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // 🔍 Search Field
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           child: TextField(
             controller: _controller,
             decoration: InputDecoration(
               hintText: 'Search products...',
+              hintStyle: AppTextStyles.hint,
               prefixIcon: Icon(Icons.search),
               suffixIcon: IconButton(
                 icon: Icon(Icons.clear),
@@ -47,35 +38,10 @@ class _ProductSearchBarState extends State<ProductSearchBar> {
                 },
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
             ),
-            onSubmitted: widget.onSearch,
-          ),
-        ),
-
-        // 🏷️ Category Dropdown
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: DropdownButtonFormField<String>(
-            value: selectedCategory,
-            items: categories.map((cat) {
-              return DropdownMenuItem<String>(
-                value: cat,
-                child: Text(cat),
-              );
-            }).toList(),
-            decoration: InputDecoration(
-              labelText: 'Filter by category',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onChanged: (value) {
-              if (value == null) return;
-              setState(() => selectedCategory = value);
-              widget.onCategorySelected?.call(value == 'All' ? '' : value);
-            },
+            onChanged: widget.onSearch,
           ),
         ),
       ],

@@ -1,9 +1,10 @@
+import '../../domain/entites/product_details_entity.dart';
 import '../../domain/entites/product_entity.dart';
 import 'dimensions.dart';
 import 'reviews.dart';
 import 'meta.dart';
 
-class ProductModel {
+class ProductModel  {
   ProductModel({
     this.id,
     this.title,
@@ -84,7 +85,29 @@ class ProductModel {
     id: id??0,
     title: title??"",
     description: description?? "",
+    stock: stock??1,
     price: price??0.0,
     image: images?[0]?? "",
 
-  );}
+  );
+  ProductDetailsEntity toProductDetailsEntity() => ProductDetailsEntity(
+    id: id ?? 0,
+    title: title ?? "",
+    description: description ?? "",
+    price: price ?? 0.0,
+    discountPercentage: discountPercentage?.toDouble() ?? 0.0,
+    rating: rating ?? 0.0,
+    stock: stock ?? 0,
+    brand: brand ?? "",
+    thumbnail: thumbnail ?? "",
+    images: images ?? [],
+    availabilityStatus: availabilityStatus ?? "",
+    warrantyInformation: warrantyInformation ?? "",
+    shippingInformation: shippingInformation ?? "",
+    returnPolicy: returnPolicy ?? "",
+  );
+
+
+
+}
+

@@ -1,15 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wasil_task/core/routes/app_router.dart';
+import 'package:hive/hive.dart';
+import 'package:wasil_task/core/injectable/get_it.dart';
+import 'package:wasil_task/core/routes/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:wasil_task/core/utils/extensions.dart';
 import 'package:wasil_task/features/cart/presentation/cubit/cart_cubit.dart';
-
-import '../../../../core/routes/app_routes.dart';
+import '../../../../core/utils/helper.dart';
 import '../../../cart/domain/entities/cart_item.dart';
-import '../../domain/entites/get_product_params.dart';
 import '../../domain/entites/product_entity.dart';
 import '../../domain/enums/filter_type.dart';
-import '../cubit/product_cubit.dart';
+import '../cubit/product_cubit/product_cubit.dart';
+import '../widgets/cart_icon_with_badge.dart';
 import '../widgets/list_view_builder_product.dart';
 import '../widgets/product_search_bar.dart';
 import '../widgets/sort_price_widget.dart';
@@ -22,67 +26,98 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-    List<CartItemEntity> cart =[];
-
+  List<CartItemEntity> cart = [];
   List<ProductEntity> allProducts = [];
-  late ProductCubit _productCubit;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
-    _productCubit = context.read<ProductCubit>();
-  }
+    Future.microtask(() async {
+      final productCubit = context.read<ProductCubit>();
+      await productCubit.fetchProducts(isRefresh: true);
+      context.read<CartCubit>().loadCart();
 
-  @override
-  void dispose() {
-    super.dispose();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products'),
+        title: Row(children: [Text('Products', style: TextStyle(fontSize: 18.sp))]),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12.w),
             child: BlocConsumer<CartCubit, CartState>(
               listener: (context, state) {
-                if (state is CartLoaded){
-                  cart=state.items;
+                if (state is CartLoaded) {
+                  print("sddsfsgfgf");
+                  setState(() {
+                    cart = state.items;
+                  });
                 }
               },
               builder: (context, state) {
-                return GestureDetector(
-                    onTap: () {
-                      context.pushNamed(AppRoutes.cart);
-                    },
-                    child: Center(child: Text("Cart: ${cart.length}")));
+
+                return CartIconWithBadge(length: cart.length);
               },
             ),
           ),
         ],
+        leading: IconButton(
+          onPressed: () async {
+            final user = FirebaseAuth.instance.currentUser;
+
+            if (user == null) {
+              CustomSnackBar.show(
+                context,
+                duration: Duration(milliseconds: 8000),
+                "The products you added as a guest will be added to your account after login 🛒",
+              );
+              context.pushNamedAndRemoveUntil(AppRoutes.login);
+            } else {
+              await FirebaseAuth.instance.signOut();
+              CustomSnackBar.show(
+                context,
+                "Sign Out",
+
+                duration: Duration(milliseconds: 1200),
+              );
+              Hive.close();
+              context.pushNamedAndRemoveUntil(AppRoutes.login);
+            }
+          },
+          icon: Icon(
+            FirebaseAuth.instance.currentUser == null ? Icons.login : Icons.logout,
+          ),
+          color: FirebaseAuth.instance.currentUser == null ? Colors.green : Colors.red,
+        ),
       ),
       body: Column(
         children: [
           ProductSearchBar(
             onSearch: (keyword) async {
-              await _productCubit.fetchProducts(
+              await context.read<ProductCubit>().fetchProducts(
                 isRefresh: true,
-                filterType: FilterType.search,
-                search: keyword,
+                filterType: keyword.isEmpty ? null : FilterType.search,
+                search: keyword.isEmpty ? null : keyword,
               );
             },
           ),
-          SizedBox(height: 12),
+
+          SizedBox(height: 12.h),
+
           SortPriceWidget(
             onSortChanged: (sortType) async {
-              await _productCubit.fetchProducts(
+              await context.read<ProductCubit>().fetchProducts(
                 isRefresh: true,
                 sortType: sortType,
               );
             },
           ),
+
+          SizedBox(height: 12.h),
 
           Expanded(
             child: BlocBuilder<ProductCubit, ProductState>(
@@ -93,9 +128,14 @@ class _ProductPageState extends State<ProductPage> {
                   return Center(
                     child: RefreshIndicator(
                       onRefresh: () =>
-                          _productCubit.fetchProducts(isRefresh: true),
+                          context.read<ProductCubit>().fetchProducts(isRefresh: true),
                       child: ListView(
-                        children: [Center(child: Text(state.message))],
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(20.w),
+                            child: Center(child: Text(state.message, style: TextStyle(fontSize: 14.sp))),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -107,11 +147,13 @@ class _ProductPageState extends State<ProductPage> {
                       : (state is ProductLoadingMore)
                       ? state.products
                       : allProducts;
+
                   allProducts = products;
 
                   return ListViewBuilderProduct(products: products);
                 }
-                return Container();
+
+                return const SizedBox.shrink();
               },
             ),
           ),

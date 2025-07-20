@@ -22,7 +22,8 @@ class CartItemModel extends HiveObject {
 
   @HiveField(5)
   String description;
-
+  @HiveField(6)
+  int stock;
   CartItemModel({
     required this.productId,
     required this.name,
@@ -30,12 +31,14 @@ class CartItemModel extends HiveObject {
     required this.price,
     required this.image,
     required this.description,
+    required this.stock
   });
 
   CartItemEntity toEntity() {
     return CartItemEntity(
       productId: productId,
       name: name,
+      stock: stock,
       quantity: quantity,
       price: price,
       image: image,
@@ -47,6 +50,7 @@ class CartItemModel extends HiveObject {
     return CartItemModel(
       productId: item.productId,
       name: item.name,
+      stock: item.stock,
       quantity: item.quantity,
       price: item.price,
       image: item.image,
@@ -59,11 +63,13 @@ class CartItemModel extends HiveObject {
     int? quantity,
     double? price,
     String? image,
+    int?stock,
     String? description,
   }) {
     return CartItemModel(
       productId: productId ?? this.productId,
       name: name ?? this.name,
+      stock: stock??this.stock,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
       image: image ?? this.image,

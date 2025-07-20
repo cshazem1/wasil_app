@@ -1,24 +1,41 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/cart_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wasil_task/core/routes/app_routes.dart';
+import 'package:wasil_task/core/styles/app_colors.dart';
+import 'package:wasil_task/core/styles/app_text_style.dart';
+import 'package:wasil_task/core/utils/extensions.dart';
+import 'package:wasil_task/core/utils/helper.dart';
 import '../cubit/cart_cubit.dart';
+import '../widgets/custom_item_cart.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
+
+  bool isLoggedIn(BuildContext context) {
+    return FirebaseAuth.instance.currentUser != null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cart'),
+        title: Text('Cart'),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
+            tooltip: 'Clear All',
             onPressed: () {
               context.read<CartCubit>().clearCart();
+              CustomSnackBar.show(
+                context,
+                'Cart cleared',
+                duration: const Duration(milliseconds: 1200),
+                backgroundColor: AppColors.error,
+              );
             },
-            tooltip: 'Clear All',
-          )
+          ),
         ],
       ),
       body: BlocBuilder<CartCubit, CartState>(
@@ -27,103 +44,124 @@ class CartPage extends StatelessWidget {
             final items = state.items;
             final totalPrice = items.fold<double>(
               0,
-                  (sum, item) => sum + (item.price * item.quantity),
+              (sum, item) => sum + (item.price * item.quantity),
             );
 
             if (items.isEmpty) {
-              return const Center(child: Text('Your cart is empty.'));
+              return Center(
+                child: Text('Your cart is empty.', style: AppTextStyles.body),
+              );
             }
 
             return Column(
               children: [
                 Expanded(
                   child: ListView.separated(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.w),
                     itemCount: items.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    separatorBuilder: (_, __) => SizedBox(height: 12.h),
                     itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Card(
-                        child: ListTile(
-                          leading: Image.network(item.image, width: 50, height: 50, fit: BoxFit.cover),
-                          title: Text(item.name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('\$${item.price.toStringAsFixed(2)}'),
-                              Text('Total: \$${item.total.toStringAsFixed(2)}'),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(Icons.remove),
-                                        onPressed: () => context.read<CartCubit>().decreaseQuantity(item.productId),
-                                      ),
-                                      Text('${item.quantity}'),
-                                      IconButton(
-                                        icon: const Icon(Icons.add),
-                                        onPressed: () => context.read<CartCubit>().increaseQuantity(item.productId),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          trailing:                              IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () => context.read<CartCubit>().removeItem(item.productId),
-                              ),
-
-                        ),
-                      );
+                      return CustomItemCart(item: items[index]);
                     },
                   ),
                 ),
                 const Divider(thickness: 1),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.w),
                   child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total Items:', style: TextStyle(fontSize: 16)),
-                          Text('${items.length}', style: const TextStyle(fontSize: 16)),
+                          Text('Total Items:', style: AppTextStyles.body),
+                          Text('${items.length}', style: AppTextStyles.body),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total Price:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          Text('\$${totalPrice.toStringAsFixed(2)}',
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text('Total Price:', style: AppTextStyles.heading),
+                          Text(
+                            '\$${totalPrice.toStringAsFixed(2)}',
+                            style: AppTextStyles.heading,
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Checkout not implemented yet')),
+                        child: ElevatedButton.icon(
+                          icon: const Icon(Icons.shopping_cart_checkout),
+                          label: const Text('Checkout'),
+                          onPressed: () async {
+                            final loggedIn = isLoggedIn(context);
+                            if (!loggedIn) {
+                              final result = await showDialog<bool>(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                  title: const Text("Login Required"),
+                                  content: const Text(
+                                    "You need to login to proceed with checkout.",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text("Cancel"),
+                                      onPressed: () =>
+                                          Navigator.of(ctx).pop(false),
+                                    ),
+                                    TextButton(
+                                      child: const Text("Login"),
+                                      onPressed: () {
+                                        CustomSnackBar.show(
+                                          context,
+                                          duration: Duration(milliseconds: 8000),
+                                          "The products you added as a guest will be added to your account after login 🛒",
+                                        );
+                                        Navigator.of(ctx).pop(true);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+
+                              if (result == true) {
+                                context.pushNamedAndRemoveUntil(
+                                  AppRoutes.login,
+                                );
+                              }
+                              return;
+                            }
+
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (_) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+
+                            await Future.delayed(const Duration(seconds: 2));
+
+                            Navigator.of(context).pop();
+                            context.read<CartCubit>().clearCart();
+
+                            CustomSnackBar.show(
+                              context,
+                              'Checkout complete 🎉',
+                              backgroundColor: Colors.green,
                             );
                           },
-                          child: const Text('Checkout'),
                         ),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             );
           }
 
-          return const Center(child: Text('Something went wrong.'));
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );
