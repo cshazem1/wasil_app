@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wasil_task/core/styles/app_text_style.dart';
@@ -31,13 +30,12 @@ class CartIconWithBadge extends StatelessWidget {
                   color: Colors.red,
                   shape: BoxShape.circle,
                 ),
-                constraints: BoxConstraints(
-                  minWidth: 18.w,
-                  minHeight: 18.h,
-                ),
+                constraints: BoxConstraints(minWidth: 18.w, minHeight: 18.h),
                 child: Text(
                   '$length',
-                  style: AppTextStyles.buttonText.copyWith(color: AppColors.white),
+                  style: AppTextStyles.buttonText.copyWith(
+                    color: AppColors.white,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

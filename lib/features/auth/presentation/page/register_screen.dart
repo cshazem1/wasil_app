@@ -29,9 +29,17 @@ class _RegisterPageState extends State<RegisterPage> {
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is RegisterError) {
-            CustomSnackBar.show(context, state.message, backgroundColor: Colors.red);
+            CustomSnackBar.show(
+              context,
+              state.message,
+              backgroundColor: Colors.red,
+            );
           } else if (state is RegisterSuccess) {
-            CustomSnackBar.show(context, 'Registration successful', backgroundColor: Colors.green);
+            CustomSnackBar.show(
+              context,
+              'Registration successful',
+              backgroundColor: Colors.green,
+            );
             context.pushReplacementNamed(AppRoutes.login);
           }
         },
@@ -65,24 +73,24 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: isLoading
                             ? null
                             : () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthCubit>().register(
-                              AuthParams(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                              ),
-                            );
-                          }
-                        },
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<AuthCubit>().register(
+                                    AuthParams(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    ),
+                                  );
+                                }
+                              },
                         child: isLoading
                             ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColors.white,
-                          ),
-                        )
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: AppColors.white,
+                                ),
+                              )
                             : const Text("Register"),
                       ),
                     );
@@ -91,7 +99,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-
                     context.pop();
                   },
                   child: const Text("Already have an account? Login"),

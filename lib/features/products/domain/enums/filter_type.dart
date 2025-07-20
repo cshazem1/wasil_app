@@ -1,5 +1,1 @@
-enum FilterType {
-  category,
-  search,
-  non
-}
+enum FilterType { category, search, non }

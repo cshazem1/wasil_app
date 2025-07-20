@@ -1,11 +1,7 @@
 import 'product_model.dart';
 
 class ProductsModel {
-  ProductsModel({
-      this.products,
-      this.total, 
-      this.skip, 
-      this.limit,});
+  ProductsModel({this.products, this.total, this.skip, this.limit});
 
   ProductsModel.fromJson(dynamic json) {
     if (json['products'] != null) {
@@ -22,7 +18,4 @@ class ProductsModel {
   int? total;
   int? skip;
   int? limit;
-
-
-
 }

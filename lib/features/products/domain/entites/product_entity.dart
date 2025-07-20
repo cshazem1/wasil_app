@@ -12,11 +12,18 @@ class ProductEntity {
     required this.description,
     required this.price,
     required this.stock,
-    required this.image
+    required this.image,
   });
 
-  final String  image;
-CartItemEntity  toCartEntity(){
-  return CartItemEntity(productId: id, name: title, price: price, image: image, description: description,stock:stock );
-}
+  final String image;
+  CartItemEntity toCartEntity() {
+    return CartItemEntity(
+      productId: id,
+      name: title,
+      price: price,
+      image: image,
+      description: description,
+      stock: stock,
+    );
+  }
 }

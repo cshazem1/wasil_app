@@ -4,8 +4,5 @@ class ProductsResponseEntity {
   final List<ProductEntity> products;
   final int total;
 
-  ProductsResponseEntity({
-    required this.products,
-    required this.total,
-  });
+  ProductsResponseEntity({required this.products, required this.total});
 }

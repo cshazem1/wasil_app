@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wasil_task/core/routes/app_routes.dart';
 import 'package:wasil_task/core/utils/extensions.dart';
 import 'package:wasil_task/features/auth/domain/use_case/login_usecase.dart';
@@ -24,9 +23,18 @@ class LoginScreen extends StatelessWidget {
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is LoginError) {
-            CustomSnackBar.show(context, state.message, backgroundColor: Colors.red,duration: Duration(milliseconds: 2000));
+            CustomSnackBar.show(
+              context,
+              state.message,
+              backgroundColor: Colors.red,
+              duration: Duration(milliseconds: 2000),
+            );
           } else if (state is LoginSuccess) {
-            CustomSnackBar.show(context, 'Login successful!', backgroundColor: Colors.green);
+            CustomSnackBar.show(
+              context,
+              'Login successful!',
+              backgroundColor: Colors.green,
+            );
             context.pushReplacementNamed(AppRoutes.products);
           }
         },
@@ -35,7 +43,7 @@ class LoginScreen extends StatelessWidget {
           child: Form(
             key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            child:Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomTextField(
@@ -60,24 +68,24 @@ class LoginScreen extends StatelessWidget {
                         onPressed: isLoading
                             ? null
                             : () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<AuthCubit>().login(
-                              AuthParams(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                              ),
-                            );
-                          }
-                        },
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<AuthCubit>().login(
+                                    AuthParams(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    ),
+                                  );
+                                }
+                              },
                         child: isLoading
                             ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
                             : const Text('Login'),
                       ),
                     );
@@ -85,7 +93,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 TextButton(
-                  onPressed: () => context.pushReplacementNamed(AppRoutes.products),
+                  onPressed: () =>
+                      context.pushReplacementNamed(AppRoutes.products),
                   child: const Text('Continue as Guest'),
                 ),
                 TextButton(
@@ -93,8 +102,7 @@ class LoginScreen extends StatelessWidget {
                   child: const Text("Don't have an account? Register"),
                 ),
               ],
-            )
-
+            ),
           ),
         ),
       ),

@@ -31,7 +31,7 @@ class CartItemModel extends HiveObject {
     required this.price,
     required this.image,
     required this.description,
-    required this.stock
+    required this.stock,
   });
 
   CartItemEntity toEntity() {
@@ -57,22 +57,24 @@ class CartItemModel extends HiveObject {
       description: item.description,
     );
   }
+
   CartItemModel copyWith({
     int? productId,
     String? name,
     int? quantity,
     double? price,
     String? image,
-    int?stock,
+    int? stock,
     String? description,
   }) {
     return CartItemModel(
       productId: productId ?? this.productId,
       name: name ?? this.name,
-      stock: stock??this.stock,
+      stock: stock ?? this.stock,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
       image: image ?? this.image,
       description: description ?? this.description,
-    );}
+    );
+  }
 }

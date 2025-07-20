@@ -5,6 +5,7 @@ import 'package:wasil_task/features/products/domain/entites/product_details_enti
 import 'package:wasil_task/features/products/domain/use_cases/get_product_details_usecase.dart';
 
 part 'product_details_state.dart';
+
 @Injectable()
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   GetProductDetailsUseCase productDetailsUseCase;

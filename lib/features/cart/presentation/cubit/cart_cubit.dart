@@ -12,9 +12,17 @@ import '../../domain/use_case/clear_cart_usecase.dart';
 import '../../domain/use_case/remove_from_cart_usecase.dart';
 
 part 'cart_state.dart';
+
 @LazySingleton()
 class CartCubit extends Cubit<CartState> {
-  CartCubit(this._addToCartUseCase,this._clearCartUseCase,this._getCartItemsUseCase,this._removeFromCartUseCase,this.increaseQuantityUseCase,this.decreaseQuantityUseCase) : super(CartInitial());
+  CartCubit(
+    this._addToCartUseCase,
+    this._clearCartUseCase,
+    this._getCartItemsUseCase,
+    this._removeFromCartUseCase,
+    this.increaseQuantityUseCase,
+    this.decreaseQuantityUseCase,
+  ) : super(CartInitial());
   final AddToCartUseCase _addToCartUseCase;
   final RemoveFromCartUseCase _removeFromCartUseCase;
   final GetCartItemsUseCase _getCartItemsUseCase;
@@ -22,10 +30,9 @@ class CartCubit extends Cubit<CartState> {
   final IncreaseQuantityUseCase increaseQuantityUseCase;
   final DecreaseQuantityUseCase decreaseQuantityUseCase;
 
-
   Future<void> loadCart() async {
     emit(CartInitial());
-    final items =await _getCartItemsUseCase(NoParams());
+    final items = await _getCartItemsUseCase(NoParams());
     emit(CartLoaded(items));
   }
 
@@ -54,5 +61,4 @@ class CartCubit extends Cubit<CartState> {
     await decreaseQuantityUseCase(productId);
     loadCart();
   }
-
 }

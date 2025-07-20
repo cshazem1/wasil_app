@@ -1,9 +1,8 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const white=Colors.white;
+  static const white = Colors.white;
   static const primary = Color(0xFF1976D2);
   static const background = Color(0xFFFFFFFF);
   static const error = Color(0xFFD32F2F);

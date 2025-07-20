@@ -4,13 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'dio_helper.dart';
 
 abstract class ApiService {
-  Future<Response> get(
-      String path, {
-        Map<String, dynamic>? queryParameters,
-      });
-
+  Future<Response> get(String path, {Map<String, dynamic>? queryParameters});
 }
-
 
 @LazySingleton(as: ApiService)
 class ApiServiceImpl implements ApiService {
@@ -20,13 +15,9 @@ class ApiServiceImpl implements ApiService {
 
   @override
   Future<Response> get(
-      String path, {
-        Map<String, dynamic>? queryParameters,
-      }) async {
-    return await _dioHelper.dio.get(
-      path,
-      queryParameters: queryParameters,
-    );
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return await _dioHelper.dio.get(path, queryParameters: queryParameters);
   }
-
 }

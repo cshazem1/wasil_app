@@ -1,7 +1,7 @@
 part of 'product_cubit.dart';
 
 @immutable
-sealed class ProductState extends Equatable{}
+sealed class ProductState extends Equatable {}
 
 final class ProductInitial extends ProductState {
   @override
@@ -17,7 +17,7 @@ class ProductLoading extends ProductState {
 class ProductLoaded extends ProductState {
   final List<ProductEntity> products;
 
-   ProductLoaded({required this.products, });
+  ProductLoaded({required this.products});
 
   @override
   List<Object?> get props => [products];
@@ -26,7 +26,6 @@ class ProductLoaded extends ProductState {
 class ProductLoadingMore extends ProductState {
   final List<ProductEntity> products;
   ProductLoadingMore({required this.products});
-
 
   @override
   List<Object?> get props => [products];
@@ -38,5 +37,4 @@ class ProductError extends ProductState {
 
   @override
   List<Object?> get props => [message];
-
 }

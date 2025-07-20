@@ -115,7 +115,9 @@ class CartPage extends StatelessWidget {
                                       onPressed: () {
                                         CustomSnackBar.show(
                                           context,
-                                          duration: Duration(milliseconds: 8000),
+                                          duration: Duration(
+                                            milliseconds: 8000,
+                                          ),
                                           "The products you added as a guest will be added to your account after login 🛒",
                                         );
                                         Navigator.of(ctx).pop(true);

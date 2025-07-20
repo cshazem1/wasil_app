@@ -1,12 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wasil_task/core/utils/extensions.dart';
 
-import '../../../../core/routes/app_routes.dart';
 import '../../../../core/styles/app_text_style.dart';
-import '../../../../core/utils/helper.dart';
-import '../cubit/auth_cubit.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -42,14 +36,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
         border: const OutlineInputBorder(),
         suffixIcon: widget.isPassword
             ? IconButton(
-          icon: Icon(
-            _obscure ? Icons.visibility_off : Icons.visibility,
-            color: Colors.grey,
-          ),
-          onPressed: () {
-            setState(() => _obscure = !_obscure);
-          },
-        )
+                icon: Icon(
+                  _obscure ? Icons.visibility_off : Icons.visibility,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() => _obscure = !_obscure);
+                },
+              )
             : null,
       ),
     );

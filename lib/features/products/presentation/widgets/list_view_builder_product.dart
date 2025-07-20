@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,7 +25,7 @@ class _ListViewBuilderProductState extends State<ListViewBuilderProduct> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200.h &&
+              _scrollController.position.maxScrollExtent - 200.h &&
           _productCubit.hasMore &&
           _productCubit.state is! ProductLoadingMore) {
         _productCubit.fetchProducts();

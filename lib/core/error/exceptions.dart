@@ -27,7 +27,9 @@ AppException appException({required Object exception}) {
     return _firebaseExceptions(exception);
   }
 
-  return GenericAppException(message: "Something went wrong. Please try again.");
+  return GenericAppException(
+    message: "Something went wrong. Please try again.",
+  );
 }
 
 AppException _dioExceptions(DioException exception) {
@@ -68,7 +70,8 @@ AppException _firebaseExceptions(FirebaseException exception) {
       message = "Account exists with different credentials.";
       break;
     case 'invalid-credential':
-      message = "The email or password is incorrect. Please check your credentials and try again.";
+      message =
+          "The email or password is incorrect. Please check your credentials and try again.";
       break;
     case 'operation-not-allowed':
       message = "This operation is not allowed.";

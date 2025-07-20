@@ -1,6 +1,1 @@
-enum SortType {
-  priceAsc,
-  none,
-  priceDesc,
-}
-
+enum SortType { priceAsc, none, priceDesc }

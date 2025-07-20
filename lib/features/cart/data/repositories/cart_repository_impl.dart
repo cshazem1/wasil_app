@@ -4,6 +4,7 @@ import '../../domain/entities/cart_item.dart';
 import '../../domain/repositories/cart_repository.dart';
 import '../data_source/cart_local_data_source.dart';
 import '../models/cart_item_model.dart';
+
 @LazySingleton(as: CartRepository)
 class CartRepositoryImpl implements CartRepository {
   final CartLocalDataSource local;
@@ -21,15 +22,17 @@ class CartRepositoryImpl implements CartRepository {
 
   @override
   Future<List<CartItemEntity>> getCartItems() async {
-    final models =await local.getCartItems();
+    final models = await local.getCartItems();
     return models.map((model) => model.toEntity()).toList();
   }
 
   @override
   Future<void> removeFromCart(int productId) => local.removeFromCart(productId);
   @override
-  Future<void> increaseQuantity(int productId) => local.increaseQuantity(productId);
+  Future<void> increaseQuantity(int productId) =>
+      local.increaseQuantity(productId);
 
   @override
-  Future<void> decreaseQuantity(int productId) => local.decreaseQuantity(productId);
+  Future<void> decreaseQuantity(int productId) =>
+      local.decreaseQuantity(productId);
 }

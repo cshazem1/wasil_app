@@ -15,7 +15,7 @@ extension NamedNavigation on BuildContext {
   void pushNamedAndRemoveUntil(String routeName, {Object? arguments}) {
     Navigator.of(this).pushNamedAndRemoveUntil(
       routeName,
-          (route) => false,
+      (route) => false,
       arguments: arguments,
     );
   }

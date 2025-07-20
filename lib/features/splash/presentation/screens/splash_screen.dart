@@ -5,6 +5,8 @@ import 'package:wasil_task/core/utils/extensions.dart';
 import '../../../../core/routes/app_routes.dart';
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Future.microtask(() {
@@ -17,8 +19,6 @@ class SplashScreen extends StatelessWidget {
       }
     });
 
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

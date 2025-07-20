@@ -6,10 +6,7 @@ import '../../../../core/styles/app_text_style.dart';
 class ProductSearchBar extends StatefulWidget {
   final void Function(String keyword)? onSearch;
 
-  const ProductSearchBar({
-    super.key,
-    this.onSearch,
-  });
+  const ProductSearchBar({super.key, this.onSearch});
 
   @override
   State<ProductSearchBar> createState() => _ProductSearchBarState();

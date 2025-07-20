@@ -15,7 +15,10 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._firebaseAuth);
 
   @override
-  Future<Either<Failure, UserEntity>> login(String email, String password) async {
+  Future<Either<Failure, UserEntity>> login(
+    String email,
+    String password,
+  ) async {
     try {
       final credential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -29,14 +32,17 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return right(UserModel.fromFirebaseUser(user));
     } on FirebaseAuthException catch (e) {
-       return left(appFailure(appException(exception: e)));
+      return left(appFailure(appException(exception: e)));
     } catch (e) {
-        return left(appFailure(appException(exception: e)));
+      return left(appFailure(appException(exception: e)));
     }
   }
 
   @override
-  Future<Either<Failure, UserEntity>> register(String email, String password) async {
+  Future<Either<Failure, UserEntity>> register(
+    String email,
+    String password,
+  ) async {
     try {
       final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -50,9 +56,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return right(UserModel.fromFirebaseUser(user));
     } on FirebaseAuthException catch (e) {
-     return left(appFailure(appException(exception: e)));
+      return left(appFailure(appException(exception: e)));
     } catch (e) {
-     return left(appFailure(appException(exception: e)));
+      return left(appFailure(appException(exception: e)));
     }
   }
 
@@ -62,7 +68,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _firebaseAuth.signOut();
       return right(unit);
     } catch (e) {
-   return left(appFailure(appException(exception: e)));
+      return left(appFailure(appException(exception: e)));
     }
   }
 

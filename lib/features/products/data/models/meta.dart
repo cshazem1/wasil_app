@@ -1,9 +1,5 @@
 class Meta {
-  Meta({
-      this.createdAt, 
-      this.updatedAt, 
-      this.barcode, 
-      this.qrCode,});
+  Meta({this.createdAt, this.updatedAt, this.barcode, this.qrCode});
 
   Meta.fromJson(dynamic json) {
     createdAt = json['createdAt'];
@@ -15,7 +11,4 @@ class Meta {
   String? updatedAt;
   String? barcode;
   String? qrCode;
-
-
-
 }

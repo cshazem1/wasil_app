@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wasil_task/core/error/exceptions.dart';
-import 'package:wasil_task/features/products/data/models/product_model.dart';
 import 'package:wasil_task/features/products/domain/entites/get_product_params.dart';
 import 'package:wasil_task/features/products/domain/entites/product_details_entity.dart';
 import 'package:wasil_task/features/products/domain/entites/products_response_entity.dart';
@@ -39,11 +38,9 @@ class ProductRepositoriesImpl extends ProductRepository {
   ) async {
     final model = await dataSource.getDetailsProduct(id);
     try {
-      final ProductDetailsEntity productEntity =model.toProductDetailsEntity();
+      final ProductDetailsEntity productEntity = model.toProductDetailsEntity();
 
-      return right(
-          productEntity
-      );
+      return right(productEntity);
     } catch (e) {
       return left(appFailure(appException(exception: e)));
     }

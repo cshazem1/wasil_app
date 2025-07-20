@@ -4,9 +4,6 @@ class UserModel extends UserEntity {
   const UserModel({required super.uid, required super.email});
 
   factory UserModel.fromFirebaseUser(dynamic user) {
-    return UserModel(
-      uid: user.uid,
-      email: user.email,
-    );
+    return UserModel(uid: user.uid, email: user.email);
   }
 }

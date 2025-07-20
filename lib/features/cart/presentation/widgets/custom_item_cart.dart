@@ -37,8 +37,10 @@ class CustomItemCart extends StatelessWidget {
                   width: 80.w,
                   height: 80.w,
                   fit: BoxFit.cover,
-                  placeholder: (ctx, url) => const CircularProgressIndicator(strokeWidth: 2),
-                  errorWidget: (ctx, url, error) => const Icon(Icons.broken_image),
+                  placeholder: (ctx, url) =>
+                      const CircularProgressIndicator(strokeWidth: 2),
+                  errorWidget: (ctx, url, error) =>
+                      const Icon(Icons.broken_image),
                 ),
               ),
               SizedBox(width: 12.w),
@@ -46,11 +48,22 @@ class CustomItemCart extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.name, style: AppTextStyles.body, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    Text(
+                      item.name,
+                      style: AppTextStyles.body,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                     SizedBox(height: 4.h),
-                    Text('\$${item.price.toStringAsFixed(2)}', style: AppTextStyles.hint),
+                    Text(
+                      '\$${item.price.toStringAsFixed(2)}',
+                      style: AppTextStyles.hint,
+                    ),
                     SizedBox(height: 2.h),
-                    Text('Total: \$${item.total.toStringAsFixed(2)}', style: AppTextStyles.hint),
+                    Text(
+                      'Total: \$${item.total.toStringAsFixed(2)}',
+                      style: AppTextStyles.hint,
+                    ),
                     SizedBox(height: 8.h),
                     Row(
                       children: [
@@ -59,7 +72,9 @@ class CustomItemCart extends StatelessWidget {
                           icon: Icons.remove,
                           onPressed: () {
                             if (item.quantity > 1) {
-                              context.read<CartCubit>().decreaseQuantity(item.productId);
+                              context.read<CartCubit>().decreaseQuantity(
+                                item.productId,
+                              );
                               CustomSnackBar.show(
                                 context,
                                 'Total Stock: ${item.stock}\nDecreased: ${item.name}',
@@ -76,7 +91,10 @@ class CustomItemCart extends StatelessWidget {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
-                          child: Text('${item.quantity}', style: AppTextStyles.body),
+                          child: Text(
+                            '${item.quantity}',
+                            style: AppTextStyles.body,
+                          ),
                         ),
                         _quantityButton(
                           context,
@@ -90,7 +108,9 @@ class CustomItemCart extends StatelessWidget {
                                 duration: Duration(milliseconds: 700),
                               );
                             } else {
-                              context.read<CartCubit>().increaseQuantity(item.productId);
+                              context.read<CartCubit>().increaseQuantity(
+                                item.productId,
+                              );
                               CustomSnackBar.show(
                                 context,
                                 'Total Stock: ${item.stock}\nIncreased: ${item.name}',
@@ -100,7 +120,7 @@ class CustomItemCart extends StatelessWidget {
                           },
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -122,7 +142,11 @@ class CustomItemCart extends StatelessWidget {
     );
   }
 
-  Widget _quantityButton(BuildContext context, {required IconData icon, required VoidCallback onPressed}) {
+  Widget _quantityButton(
+    BuildContext context, {
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
     return Container(
       width: 32.w,
       height: 32.w,

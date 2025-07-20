@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/styles/app_text_style.dart';
 import '../../domain/enums/sort_type.dart';
 
 class SortPriceWidget extends StatefulWidget {
@@ -8,10 +7,10 @@ class SortPriceWidget extends StatefulWidget {
   final Function(SortType) onSortChanged;
 
   const SortPriceWidget({
-    Key? key,
+    super.key,
     this.currentSort,
     required this.onSortChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<SortPriceWidget> createState() => _SortPriceWidgetState();
@@ -43,9 +42,7 @@ class _SortPriceWidgetState extends State<SortPriceWidget> {
       padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Row(
         children: [
-          Text(
-            'Sort by price:',
-          ),
+          Text('Sort by price:'),
           SizedBox(width: 8.w),
           ChoiceChip(
             label: Text('Low to High'),

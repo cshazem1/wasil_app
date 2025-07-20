@@ -1,8 +1,5 @@
 class Dimensions {
-  Dimensions({
-      this.width, 
-      this.height, 
-      this.depth,});
+  Dimensions({this.width, this.height, this.depth});
 
   Dimensions.fromJson(dynamic json) {
     width = json['width'];
@@ -12,7 +9,4 @@ class Dimensions {
   num? width;
   num? height;
   num? depth;
-
-
-
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wasil_task/core/injectable/get_it.dart';
@@ -6,7 +5,6 @@ import 'package:wasil_task/core/routes/app_routes.dart';
 import 'package:wasil_task/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:wasil_task/features/auth/presentation/page/login_screen.dart';
 import 'package:wasil_task/features/cart/presentation/screens/cart_page.dart';
-import 'package:wasil_task/features/products/domain/entites/product_details_entity.dart';
 import 'package:wasil_task/features/products/presentation/cubit/product_details_cubit/product_details_cubit.dart';
 import 'package:wasil_task/features/products/presentation/screens/product_details_screen.dart';
 import 'package:wasil_task/features/splash/presentation/screens/splash_screen.dart';
@@ -44,11 +42,11 @@ abstract class AppRouter {
           ),
         );
       case AppRoutes.productDetails:
-        final int id =
-            settings.arguments as int;
+        final int id = settings.arguments as int;
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => getIt<ProductDetailsCubit>()..getProductDetails(id),
+            create: (context) =>
+                getIt<ProductDetailsCubit>()..getProductDetails(id),
             child: ProductDetailsScreen(id: id),
           ),
         );

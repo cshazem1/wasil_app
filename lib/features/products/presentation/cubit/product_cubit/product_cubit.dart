@@ -45,20 +45,23 @@ class ProductCubit extends Cubit<ProductState> {
     _currentParams = _currentParams.copyWith(
       page: page,
       limit: _limit,
-      search: (search == null || search=='null'||search=='') ? null : search,
-      filterType: (search == null || search=='null'||search=='') ? FilterType.non : filterType,
+      search: (search == null || search == 'null' || search == '')
+          ? null
+          : search,
+      filterType: (search == null || search == 'null' || search == '')
+          ? FilterType.non
+          : filterType,
       sortType: sortType,
     );
-
 
     final result = await getProductsUseCase(_currentParams);
 
     result.fold(
-          (failure) {
+      (failure) {
         _isLoadingMore = false;
         emit(ProductError(message: failure.message));
       },
-          (response) {
+      (response) {
         _isLoadingMore = false;
         _total = response.total;
         _products.addAll(response.products);

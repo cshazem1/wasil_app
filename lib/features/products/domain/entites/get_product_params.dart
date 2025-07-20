@@ -10,8 +10,8 @@ class GetProductParams {
   final FilterType? filterType;
 
   GetProductParams({
-     this.page,
-     this.limit,
+    this.page,
+    this.limit,
     this.sortType,
     this.search,
     this.filterType,

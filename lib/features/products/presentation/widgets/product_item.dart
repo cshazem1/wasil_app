@@ -45,13 +45,15 @@ class ProductItem extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) =>
-                  const Icon(Icons.broken_image),
+                      const Icon(Icons.broken_image),
                 ),
               ),
               SizedBox(height: 12.h),
               Text(
                 product.title,
-                style: AppTextStyles.subtitle.copyWith(fontWeight: FontWeight.w600),
+                style: AppTextStyles.body.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -73,7 +75,9 @@ class ProductItem extends StatelessWidget {
                 height: 36.h,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await context.read<CartCubit>().addItem(product.toCartEntity());
+                    await context.read<CartCubit>().addItem(
+                      product.toCartEntity(),
+                    );
                     CustomSnackBar.show(
                       context,
                       'Product added to cart',
@@ -82,7 +86,7 @@ class ProductItem extends StatelessWidget {
                   },
                   child: Text("Add to Cart", style: AppTextStyles.buttonText),
                 ),
-              )
+              ),
             ],
           ),
         ),

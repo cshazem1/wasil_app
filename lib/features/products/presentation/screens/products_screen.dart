@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:wasil_task/core/injectable/get_it.dart';
 import 'package:wasil_task/core/routes/app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -36,16 +35,16 @@ class _ProductPageState extends State<ProductPage> {
       final productCubit = context.read<ProductCubit>();
       await productCubit.fetchProducts(isRefresh: true);
       context.read<CartCubit>().loadCart();
-
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: Row(children: [Text('Products', style: TextStyle(fontSize: 18.sp))]),
+        title: Row(
+          children: [Text('Products', style: TextStyle(fontSize: 18.sp))],
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.all(12.w),
@@ -59,7 +58,6 @@ class _ProductPageState extends State<ProductPage> {
                 }
               },
               builder: (context, state) {
-
                 return CartIconWithBadge(length: cart.length);
               },
             ),
@@ -89,9 +87,13 @@ class _ProductPageState extends State<ProductPage> {
             }
           },
           icon: Icon(
-            FirebaseAuth.instance.currentUser == null ? Icons.login : Icons.logout,
+            FirebaseAuth.instance.currentUser == null
+                ? Icons.login
+                : Icons.logout,
           ),
-          color: FirebaseAuth.instance.currentUser == null ? Colors.green : Colors.red,
+          color: FirebaseAuth.instance.currentUser == null
+              ? Colors.green
+              : Colors.red,
         ),
       ),
       body: Column(
@@ -127,13 +129,19 @@ class _ProductPageState extends State<ProductPage> {
                 } else if (state is ProductError && allProducts.isEmpty) {
                   return Center(
                     child: RefreshIndicator(
-                      onRefresh: () =>
-                          context.read<ProductCubit>().fetchProducts(isRefresh: true),
+                      onRefresh: () => context
+                          .read<ProductCubit>()
+                          .fetchProducts(isRefresh: true),
                       child: ListView(
                         children: [
                           Padding(
                             padding: EdgeInsets.all(20.w),
-                            child: Center(child: Text(state.message, style: TextStyle(fontSize: 14.sp))),
+                            child: Center(
+                              child: Text(
+                                state.message,
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
+                            ),
                           ),
                         ],
                       ),

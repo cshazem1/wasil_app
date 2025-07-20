@@ -4,7 +4,7 @@ import 'dimensions.dart';
 import 'reviews.dart';
 import 'meta.dart';
 
-class ProductModel  {
+class ProductModel {
   ProductModel({
     this.id,
     this.title,
@@ -27,7 +27,8 @@ class ProductModel  {
     this.minimumOrderQuantity,
     this.meta,
     this.images,
-    this.thumbnail,});
+    this.thumbnail,
+  });
 
   ProductModel.fromJson(dynamic json) {
     id = json['id'];
@@ -42,7 +43,9 @@ class ProductModel  {
     brand = json['brand'];
     sku = json['sku'];
     weight = json['weight'];
-    dimensions = json['dimensions'] != null ? Dimensions.fromJson(json['dimensions']) : null;
+    dimensions = json['dimensions'] != null
+        ? Dimensions.fromJson(json['dimensions'])
+        : null;
     warrantyInformation = json['warrantyInformation'];
     shippingInformation = json['shippingInformation'];
     availabilityStatus = json['availabilityStatus'];
@@ -82,13 +85,12 @@ class ProductModel  {
   String? thumbnail;
 
   toEntity() => ProductEntity(
-    id: id??0,
-    title: title??"",
-    description: description?? "",
-    stock: stock??1,
-    price: price??0.0,
-    image: images?[0]?? "",
-
+    id: id ?? 0,
+    title: title ?? "",
+    description: description ?? "",
+    stock: stock ?? 1,
+    price: price ?? 0.0,
+    image: images?[0] ?? "",
   );
   ProductDetailsEntity toProductDetailsEntity() => ProductDetailsEntity(
     id: id ?? 0,
@@ -106,8 +108,4 @@ class ProductModel  {
     shippingInformation: shippingInformation ?? "",
     returnPolicy: returnPolicy ?? "",
   );
-
-
-
 }
-

@@ -1,10 +1,11 @@
 class Reviews {
   Reviews({
-      this.rating, 
-      this.comment, 
-      this.date, 
-      this.reviewerName, 
-      this.reviewerEmail,});
+    this.rating,
+    this.comment,
+    this.date,
+    this.reviewerName,
+    this.reviewerEmail,
+  });
 
   Reviews.fromJson(dynamic json) {
     rating = json['rating'];
@@ -18,6 +19,4 @@ class Reviews {
   String? date;
   String? reviewerName;
   String? reviewerEmail;
-
-
 }
