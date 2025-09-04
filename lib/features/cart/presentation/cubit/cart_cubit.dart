@@ -31,7 +31,7 @@ class CartCubit extends Cubit<CartState> {
   final DecreaseQuantityUseCase decreaseQuantityUseCase;
 
   Future<void> loadCart() async {
-    emit(CartInitial());
+    // emit(CartInitial());
     final items = await _getCartItemsUseCase(NoParams());
     emit(CartLoaded(items));
   }
@@ -44,12 +44,12 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> removeItem(int productId) async {
     await _removeFromCartUseCase(productId);
-    loadCart(); // Refresh after removal
+    loadCart();
   }
 
   Future<void> clearCart() async {
     await _clearCartUseCase(NoParams());
-    loadCart(); // Refresh after clearing
+    loadCart();
   }
 
   Future<void> increaseQuantity(int productId) async {
