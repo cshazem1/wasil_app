@@ -1,22 +1,36 @@
+// presentation/cubit/product_details/product_details_cubit.dart
 import 'package:bloc/bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
-import 'package:wasil_task/features/products/domain/entites/product_details_entity.dart';
-import 'package:wasil_task/features/products/domain/use_cases/get_product_details_usecase.dart';
+import '../../../domain/entites/product_details_entity.dart';
+import '../../../domain/use_cases/get_product_details_usecase.dart';
 
 part 'product_details_state.dart';
+part 'product_details_cubit.freezed.dart';
 
-@Injectable()
+@injectable
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
-  GetProductDetailsUseCase productDetailsUseCase;
+  final GetProductDetailsUseCase productDetailsUseCase;
+
   ProductDetailsCubit(this.productDetailsUseCase)
-    : super(ProductDetailsInitial());
+      : super(const ProductDetailsState.initial());
+
   Future<void> getProductDetails(int id) async {
-    emit(ProductDetailsLoading());
+    emit(const ProductDetailsState.loading());
+
     final result = await productDetailsUseCase(id);
-    result.fold(
-      (error) => emit(ProductDetailsFailure(error.message)),
-      (success) => emit(ProductDetailsSuccess(success)),
+
+    result.when(
+      success: (product) => emit(
+        ProductDetailsState.success(product: product),
+      ),
+      failure: (error) => emit(
+        ProductDetailsState.failure(message: error.message ?? 'Unknown error'),
+      ),
     );
+  }
+
+  void reset() {
+    emit(const ProductDetailsState.initial());
   }
 }

@@ -1,75 +1,69 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+// features/products/presentation/cubit/product_cubit.dart
 import 'package:injectable/injectable.dart';
-import 'package:meta/meta.dart';
-
-import '../../../domain/entites/get_product_params.dart';
+import '../../../../../core/network/api_result.dart';
+import '../../../../../core/pagination/cubit/pagination_cubit.dart';
+import '../../../../../core/pagination/models/pagination_params.dart';
+import '../../../../../core/pagination/models/pagination_response.dart';
 import '../../../domain/entites/product_entity.dart';
+import '../../../domain/entites/get_product_params.dart';
+import '../../../domain/use_cases/get_products_usecase.dart';
 import '../../../domain/enums/filter_type.dart';
 import '../../../domain/enums/sort_type.dart';
-import '../../../domain/use_cases/get_products_usecase.dart';
 
-part 'product_state.dart';
-
-@Injectable()
-class ProductCubit extends Cubit<ProductState> {
-  ProductCubit(this.getProductsUseCase) : super(ProductInitial());
-
+@injectable
+class ProductCubit extends PaginationCubit<ProductEntity> {
   final GetProductsUseCase getProductsUseCase;
 
-  int page = 1;
-  final int _limit = 10;
-  int _total = 0;
-  bool _isLoadingMore = false;
-  final List<ProductEntity> _products = [];
+  ProductCubit(this.getProductsUseCase);
 
-  GetProductParams _currentParams = GetProductParams();
-
-  Future<void> fetchProducts({
-    bool isRefresh = false,
-    String? search,
-    SortType? sortType,
-    FilterType? filterType,
-  }) async {
-    if (state is ProductLoading || _isLoadingMore) return;
-
-    if (isRefresh) {
-      page = 1;
-      _products.clear();
-      _total = 0;
-      emit(ProductLoading());
-    } else {
-      _isLoadingMore = true;
-      emit(ProductLoadingMore(products: _products));
-    }
-    _currentParams = _currentParams.copyWith(
-      page: page,
-      limit: _limit,
-      search: (search == null || search == 'null' || search == '')
-          ? null
-          : search,
-      filterType: (search == null || search == 'null' || search == '')
-          ? FilterType.non
-          : filterType,
-      sortType: sortType,
+  @override
+  Future<ApiResult<PaginationResponse<ProductEntity>>> fetchData(
+      PaginationParams params,
+      ) async {
+    final productParams = GetProductParams(
+      page: params.page,
+      limit: params.limit,
+      search: params.filters?['q'] as String?,
+      sortType: params.filters?['sortType'] as SortType?,
+      filterType: params.filters?['filterType'] as FilterType?,
     );
 
-    final result = await getProductsUseCase(_currentParams);
+    final result = await getProductsUseCase(productParams);
 
-    result.fold(
-      (failure) {
-        _isLoadingMore = false;
-        emit(ProductError(message: failure.message));
+    return result.when(
+      success: (productsResponseEntity) {
+        return ApiResult.success(
+          PaginationResponse<ProductEntity>(
+            items: productsResponseEntity.products,
+            total: productsResponseEntity.total,
+            skip: productsResponseEntity.skip,
+            limit: productsResponseEntity.limit,
+          ),
+        );
       },
-      (response) {
-        _isLoadingMore = false;
-        _total = response.total;
-        _products.addAll(response.products);
-        emit(ProductLoaded(products: _products));
-        page++;
+      failure: (error) => ApiResult.failure(error),
+    );
+  }
+
+  // Custom methods
+  Future<void> searchProducts(String query) async {
+    await loadInitial(
+      filters: {
+        'q': query,
+        if (query.isNotEmpty) 'filterType': FilterType.search,
       },
     );
   }
 
-  bool get hasMore => _products.length < _total;
+  Future<void> sortProducts(SortType sortType) async {
+    await loadInitial(
+      filters: {'sortType': sortType},
+    );
+  }
+
+  Future<void> filterByCategory(String category) async {
+    await loadInitial(
+      filters: {'category': category},
+    );
+  }
 }
