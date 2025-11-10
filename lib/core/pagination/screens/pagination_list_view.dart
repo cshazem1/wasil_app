@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../cubit/pagination_cubit.dart';
 
 class PaginationListView<T> extends StatefulWidget {
-  final PaginationCubit<T> cubit; // ⭐ ضيف الـ parameter ده
+  final PaginationCubit<T> cubit;
   final Widget Function(BuildContext context, T item, int index) itemBuilder;
   final Widget? loadingWidget;
   final Widget? errorWidget;
@@ -19,8 +19,8 @@ class PaginationListView<T> extends StatefulWidget {
   final Widget Function(BuildContext, String)? errorBuilder;
 
   const PaginationListView({
-    Key? key,
-    required this.cubit, // ⭐ مطلوب
+    super.key,
+    required this.cubit,
     required this.itemBuilder,
     this.loadingWidget,
     this.errorWidget,
@@ -32,7 +32,7 @@ class PaginationListView<T> extends StatefulWidget {
     this.physics,
     this.controller,
     this.errorBuilder,
-  }) : super(key: key);
+  });
 
   @override
   State<PaginationListView<T>> createState() => _PaginationListViewState<T>();
@@ -46,7 +46,7 @@ class _PaginationListViewState<T> extends State<PaginationListView<T>> {
   void initState() {
     super.initState();
     _scrollController = widget.controller ?? ScrollController();
-    _cubit = widget.cubit; // ⭐ استخدم الـ parameter بدل context.read
+    _cubit = widget.cubit;
     _scrollController.addListener(_onScroll);
   }
 
@@ -66,7 +66,7 @@ class _PaginationListViewState<T> extends State<PaginationListView<T>> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaginationCubit<T>, PaginationState<T>>(
-      bloc: _cubit, // ⭐ حدد الـ bloc
+      bloc: _cubit,
       builder: (context, state) {
         return state.when(
           initial: () => widget.emptyWidget ?? const SizedBox.shrink(),

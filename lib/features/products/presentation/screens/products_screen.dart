@@ -112,6 +112,20 @@ class _ProductPageState extends State<ProductPage> {
               itemBuilder: (context, product, index) {
                 return ProductItem(product: product);
               },
+              loadingWidget: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: const Center(
+                child: Text('Error loading products'),
+              ),
+              loadMoreWidget: const Center(
+                child: Text("data"),
+              ),
+              emptyWidget: const Center(
+                child: Text("No products found"),
+              ),
+              loadMoreThreshold: 10,
+
               padding: EdgeInsets.only(bottom: 16.h),
             ),
           ),
