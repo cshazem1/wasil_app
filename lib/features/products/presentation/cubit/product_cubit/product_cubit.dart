@@ -15,20 +15,14 @@ class ProductCubit extends PaginationCubit<ProductEntity> {
   final GetProductsUseCase getProductsUseCase;
 
   ProductCubit(this.getProductsUseCase);
+  late GetProductParams _params = GetProductParams();
 
   @override
   Future<ApiResult<PaginationResponse<ProductEntity>>> fetchData(
-      PaginationParams params,
-      ) async {
-    final productParams = GetProductParams(
-      page: params.page,
-      limit: params.limit,
-      search: params.filters?['q'] as String?,
-      sortType: params.filters?['sortType'] as SortType?,
-      filterType: params.filters?['filterType'] as FilterType?,
-    );
-
-    final result = await getProductsUseCase(productParams);
+    PaginationParams params,
+  ) async {
+    _params = params.toGetProductParams();
+    final result = await getProductsUseCase(_params);
 
     return result.when(
       success: (productsResponseEntity) {
@@ -47,23 +41,21 @@ class ProductCubit extends PaginationCubit<ProductEntity> {
 
   // Custom methods
   Future<void> searchProducts(String query) async {
-    await loadInitial(
-      filters: {
-        'q': query,
-        if (query.isNotEmpty) 'filterType': FilterType.search,
-      },
-    );
+    _params = _params.copyWith(search: query, filterType: FilterType.search);
+
+    await loadInitial(filters: _params);
   }
 
   Future<void> sortProducts(SortType sortType) async {
-    await loadInitial(
-      filters: {'sortType': sortType},
-    );
+    _params = _params.copyWith(sortType: sortType);
+    await loadInitial(filters: _params);
   }
 
   Future<void> filterByCategory(String category) async {
-    await loadInitial(
-      filters: {'category': category},
+    _params = _params.copyWith(
+      search: category,
+      filterType: FilterType.category,
     );
+    await loadInitial(filters: _params);
   }
 }

@@ -2,8 +2,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_ce/hive.dart';
 import '../../../../core/pagination/screens/pagination_list_view.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/extensions.dart';
@@ -11,7 +11,6 @@ import '../../../../core/utils/helper.dart';
 import '../../../cart/presentation/cubit/cart_cubit.dart';
 import '../../../cart/domain/entities/cart_item.dart';
 import '../../domain/entites/product_entity.dart';
-import '../../domain/enums/filter_type.dart';
 import '../cubit/product_cubit/product_cubit.dart';
 import '../widgets/cart_icon_with_badge.dart';
 import '../widgets/product_item.dart';
@@ -112,18 +111,10 @@ class _ProductPageState extends State<ProductPage> {
               itemBuilder: (context, product, index) {
                 return ProductItem(product: product);
               },
-              loadingWidget: const Center(
-                child: CircularProgressIndicator(),
-              ),
-              errorWidget: const Center(
-                child: Text('Error loading products'),
-              ),
-              loadMoreWidget: const Center(
-                child: Text("data"),
-              ),
-              emptyWidget: const Center(
-                child: Text("No products found"),
-              ),
+              loadingWidget: const Center(child: CircularProgressIndicator()),
+              errorWidget: const Center(child: Text('Error loading products')),
+
+              emptyWidget: const Center(child: Text("No products found")),
               loadMoreThreshold: 10,
 
               padding: EdgeInsets.only(bottom: 16.h),

@@ -18,10 +18,11 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<ApiResult<ProductsResponseEntity>> getProducts(
-      GetProductParams params,
-      ) async {
+    GetProductParams params,
+  ) async {
+    print("fgnbvnbvcvbccbvc${params.toJson()}");
     try {
-      final queryParams = params.toQuery();
+      final queryParams = params.toJson();
       final ProductsModel model = await api.getProducts(queryParams);
 
       final List<ProductEntity> entities = [];
@@ -36,11 +37,7 @@ class ProductRepositoryImpl implements ProductRepository {
         ),
       );
     } catch (e) {
-      return ApiResult.failure(
-        ApiErrorModel(
-          message: e.toString(),
-        ),
-      );
+      return ApiResult.failure(ApiErrorModel(message: e.toString()));
     }
   }
 
@@ -50,11 +47,7 @@ class ProductRepositoryImpl implements ProductRepository {
       final model = await api.getProductDetails(id);
       return ApiResult.success(model.toProductDetailsEntity());
     } catch (e) {
-      return ApiResult.failure(
-        ApiErrorModel(
-          message: e.toString(),
-        ),
-      );
+      return ApiResult.failure(ApiErrorModel(message: e.toString()));
     }
   }
 }

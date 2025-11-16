@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:wasil_task/core/utils/constants.dart';
 import 'package:wasil_task/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/bloc_observer.dart';
 import 'core/injectable/get_it.dart';
@@ -23,7 +23,10 @@ void main() async {
   await Hive.openBox<CartItemModel>(Constants.cartBox);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Bloc.observer = MyBlocObserver();
-  Future.wait([PushNotificationService.init(), LocalNotificationService.init()]);
+  Future.wait([
+    PushNotificationService.init(),
+    LocalNotificationService.init(),
+  ]);
   runApp(const WasilTaskApp());
 }
 

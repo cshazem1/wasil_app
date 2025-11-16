@@ -1,16 +1,15 @@
 import 'package:wasil_task/features/products/domain/enums/filter_type.dart';
+import '../../../../core/pagination/models/pagination_params.dart';
 import '../enums/sort_type.dart';
 
-class GetProductParams {
-  final int? page;
-  final int? limit;
+class GetProductParams extends PaginationParams {
   final String? search;
   final SortType? sortType;
   final FilterType? filterType;
 
   GetProductParams({
-    this.page,
-    this.limit,
+    super.page,
+    super.limit,
     this.sortType,
     this.search,
     this.filterType,
@@ -32,22 +31,30 @@ class GetProductParams {
     );
   }
 
-  Map<String, dynamic> toQuery() {
-    final skip = ((page ?? 1) - 1) * (limit ?? 10);
+  @override
+  Map<String, dynamic> toJson() {
+    final skip = (page - 1) * limit;
 
     return {
       "limit": limit,
       "skip": skip,
-
-      if (filterType == FilterType.search) "q": search,
-
+      if (filterType == FilterType.search && search != null) "q": search,
       if (sortType == SortType.priceAsc || sortType == SortType.priceDesc)
         "sortBy": "price",
-
       if (sortType == SortType.priceAsc) "order": "asc",
       if (sortType == SortType.priceDesc) "order": "desc",
     };
   }
+}
 
-
+extension GetProductParamsExtension on PaginationParams {
+  GetProductParams toGetProductParams() {
+    return GetProductParams(
+      page: page,
+      limit: limit,
+      filterType: filters?['filterType'],
+      sortType: filters?['sortType'],
+      search: filters?['q'],
+    );
+  }
 }

@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -11,7 +12,7 @@
 import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
-import 'package:hive/hive.dart' as _i979;
+import 'package:hive_ce/hive.dart' as _i738;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:wasil_task/core/injectable/hive_module.dart' as _i586;
@@ -70,83 +71,103 @@ import 'package:wasil_task/features/products/presentation/cubit/product_details_
     as _i531;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   _i174.GetIt init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) {
-    final gh = _i526.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final hiveModule = _$HiveModule();
-    final authDataSource = _$AuthDataSource();
     final apiServiceModule = _$ApiServiceModule();
+    final authDataSource = _$AuthDataSource();
     final dioFactory = _$DioFactory();
     gh.factory<_i971.DioInterceptor>(() => _i971.DioInterceptor());
-    gh.lazySingleton<_i979.Box<_i798.CartItemModel>>(() => hiveModule.cartBox);
-    gh.lazySingleton<_i59.FirebaseAuth>(() => authDataSource.firebaseAuth);
+    gh.lazySingleton<_i738.Box<_i798.CartItemModel>>(() => hiveModule.cartBox);
     gh.lazySingleton<_i528.PrettyDioLogger>(
-        () => apiServiceModule.getPrettyDioLogger());
+      () => apiServiceModule.getPrettyDioLogger(),
+    );
+    gh.lazySingleton<_i59.FirebaseAuth>(() => authDataSource.firebaseAuth);
     gh.lazySingleton<_i523.CartLocalDataSource>(
-        () => _i230.CartLocalDataSourceImpl());
-    gh.lazySingleton<_i361.Dio>(() => dioFactory.getDio(
-          gh<_i528.PrettyDioLogger>(),
-          gh<_i971.DioInterceptor>(),
-        ));
+      () => _i230.CartLocalDataSourceImpl(),
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => dioFactory.getDio(
+        gh<_i528.PrettyDioLogger>(),
+        gh<_i971.DioInterceptor>(),
+      ),
+    );
     gh.lazySingleton<_i152.CartRepository>(
-        () => _i344.CartRepositoryImpl(gh<_i523.CartLocalDataSource>()));
+      () => _i344.CartRepositoryImpl(gh<_i523.CartLocalDataSource>()),
+    );
     gh.lazySingleton<_i100.AuthRepository>(
-        () => _i620.AuthRepositoryImpl(gh<_i59.FirebaseAuth>()));
+      () => _i620.AuthRepositoryImpl(gh<_i59.FirebaseAuth>()),
+    );
     gh.lazySingleton<_i801.LoginUseCase>(
-        () => _i801.LoginUseCase(gh<_i100.AuthRepository>()));
+      () => _i801.LoginUseCase(gh<_i100.AuthRepository>()),
+    );
     gh.lazySingleton<_i422.RegisterUseCase>(
-        () => _i422.RegisterUseCase(gh<_i100.AuthRepository>()));
+      () => _i422.RegisterUseCase(gh<_i100.AuthRepository>()),
+    );
     gh.lazySingleton<_i148.ProductApiService>(
-        () => apiServiceModule.getProductApiService(gh<_i361.Dio>()));
+      () => apiServiceModule.getProductApiService(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i40.AddToCartUseCase>(
-        () => _i40.AddToCartUseCase(gh<_i152.CartRepository>()));
+      () => _i40.AddToCartUseCase(gh<_i152.CartRepository>()),
+    );
     gh.lazySingleton<_i35.ClearCartUseCase>(
-        () => _i35.ClearCartUseCase(gh<_i152.CartRepository>()));
+      () => _i35.ClearCartUseCase(gh<_i152.CartRepository>()),
+    );
     gh.lazySingleton<_i487.GetCartItemsUseCase>(
-        () => _i487.GetCartItemsUseCase(gh<_i152.CartRepository>()));
+      () => _i487.GetCartItemsUseCase(gh<_i152.CartRepository>()),
+    );
     gh.lazySingleton<_i90.RemoveFromCartUseCase>(
-        () => _i90.RemoveFromCartUseCase(gh<_i152.CartRepository>()));
+      () => _i90.RemoveFromCartUseCase(gh<_i152.CartRepository>()),
+    );
     gh.lazySingleton<_i80.DecreaseQuantityUseCase>(
-        () => _i80.DecreaseQuantityUseCase(gh<_i152.CartRepository>()));
+      () => _i80.DecreaseQuantityUseCase(gh<_i152.CartRepository>()),
+    );
     gh.lazySingleton<_i276.IncreaseQuantityUseCase>(
-        () => _i276.IncreaseQuantityUseCase(gh<_i152.CartRepository>()));
-    gh.lazySingleton<_i729.CartCubit>(() => _i729.CartCubit(
-          gh<_i40.AddToCartUseCase>(),
-          gh<_i35.ClearCartUseCase>(),
-          gh<_i487.GetCartItemsUseCase>(),
-          gh<_i90.RemoveFromCartUseCase>(),
-          gh<_i276.IncreaseQuantityUseCase>(),
-          gh<_i80.DecreaseQuantityUseCase>(),
-        ));
-    gh.factory<_i677.AuthCubit>(() => _i677.AuthCubit(
-          gh<_i801.LoginUseCase>(),
-          gh<_i422.RegisterUseCase>(),
-        ));
+      () => _i276.IncreaseQuantityUseCase(gh<_i152.CartRepository>()),
+    );
+    gh.lazySingleton<_i729.CartCubit>(
+      () => _i729.CartCubit(
+        gh<_i40.AddToCartUseCase>(),
+        gh<_i35.ClearCartUseCase>(),
+        gh<_i487.GetCartItemsUseCase>(),
+        gh<_i90.RemoveFromCartUseCase>(),
+        gh<_i276.IncreaseQuantityUseCase>(),
+        gh<_i80.DecreaseQuantityUseCase>(),
+      ),
+    );
+    gh.factory<_i677.AuthCubit>(
+      () => _i677.AuthCubit(
+        gh<_i801.LoginUseCase>(),
+        gh<_i422.RegisterUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i1052.ProductRepository>(
-        () => _i323.ProductRepositoryImpl(api: gh<_i148.ProductApiService>()));
-    gh.lazySingleton<_i744.GetProductsUseCase>(
-        () => _i744.GetProductsUseCase(gh<_i1052.ProductRepository>()));
+      () => _i323.ProductRepositoryImpl(api: gh<_i148.ProductApiService>()),
+    );
     gh.lazySingleton<_i877.GetProductDetailsUseCase>(
-        () => _i877.GetProductDetailsUseCase(gh<_i1052.ProductRepository>()));
+      () => _i877.GetProductDetailsUseCase(gh<_i1052.ProductRepository>()),
+    );
+    gh.lazySingleton<_i744.GetProductsUseCase>(
+      () => _i744.GetProductsUseCase(gh<_i1052.ProductRepository>()),
+    );
     gh.factory<_i445.ProductCubit>(
-        () => _i445.ProductCubit(gh<_i744.GetProductsUseCase>()));
+      () => _i445.ProductCubit(gh<_i744.GetProductsUseCase>()),
+    );
     gh.factory<_i531.ProductDetailsCubit>(
-        () => _i531.ProductDetailsCubit(gh<_i877.GetProductDetailsUseCase>()));
+      () => _i531.ProductDetailsCubit(gh<_i877.GetProductDetailsUseCase>()),
+    );
     return this;
   }
 }
 
 class _$HiveModule extends _i586.HiveModule {}
 
-class _$AuthDataSource extends _i563.AuthDataSource {}
-
 class _$ApiServiceModule extends _i559.ApiServiceModule {}
+
+class _$AuthDataSource extends _i563.AuthDataSource {}
 
 class _$DioFactory extends _i283.DioFactory {}

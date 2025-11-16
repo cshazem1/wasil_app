@@ -1,4 +1,3 @@
-// core/pagination/models/pagination_response.dart
 class PaginationResponse<T> {
   final List<T> items;
   final int total;

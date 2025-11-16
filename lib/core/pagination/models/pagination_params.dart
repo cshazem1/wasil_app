@@ -1,23 +1,28 @@
-// core/pagination/models/pagination_params.dart
-import 'package:freezed_annotation/freezed_annotation.dart';
+class PaginationParams {
+  int page;
+  int limit;
+  Map<String, dynamic>? filters;
 
-part 'pagination_params.freezed.dart';
-
-@freezed
-class PaginationParams with _$PaginationParams {
-  const factory PaginationParams({
-    @Default(1) int page,
-    @Default(10) int limit,
-    Map<String, dynamic>? filters,
-  }) = _PaginationParams;
-
-  const PaginationParams._();
+  PaginationParams({this.page = 1, this.limit = 10, this.filters});
 
   Map<String, dynamic> toJson() {
+    print(filters);
     return {
       'skip': (page - 1) * limit,
       'limit': limit,
       if (filters != null) ...filters!,
     };
+  }
+
+  PaginationParams copyWithPagination({
+    int? page,
+    int? limit,
+    Map<String, dynamic>? filters,
+  }) {
+    return PaginationParams(
+      page: page ?? this.page,
+      limit: limit ?? this.limit,
+      filters: filters ?? this.filters,
+    );
   }
 }
