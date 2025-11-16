@@ -1,28 +1,22 @@
-import 'package:dartz/dartz.dart';
+// domain/use_cases/get_products_usecase.dart
 import 'package:injectable/injectable.dart';
-import 'package:wasil_task/features/products/domain/entites/get_product_params.dart';
-
-import '../../../../core/error/failures.dart';
+import '../../../../core/network/api_result.dart';
 import '../../../../core/usecase.dart';
+import '../entites/get_product_params.dart';
 import '../entites/products_response_entity.dart';
 import '../repositories/product_repository.dart';
 
 @lazySingleton
 class GetProductsUseCase
     extends
-        UseCase<
-          Future<Either<Failure, ProductsResponseEntity>>,
-          GetProductParams
-        > {
+        UseCase<Future<ApiResult<ProductsResponseEntity>>, GetProductParams> {
   final ProductRepository repository;
 
   GetProductsUseCase(this.repository);
 
   @override
-  Future<Either<Failure, ProductsResponseEntity>> call(
-    GetProductParams params,
-  ) {
-    print("RSFFFSFSF${params.page}");
+  Future<ApiResult<ProductsResponseEntity>> call(GetProductParams params) {
+    print("PARAMS PAGE: ${params.page}");
     return repository.getProducts(params);
   }
 }

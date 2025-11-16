@@ -1,18 +1,15 @@
 part of 'product_details_cubit.dart';
 
-@immutable
-sealed class ProductDetailsState {}
+@freezed
+class ProductDetailsState with _$ProductDetailsState {
+  const factory ProductDetailsState.initial() = _Initial;
 
-final class ProductDetailsInitial extends ProductDetailsState {}
+  const factory ProductDetailsState.loading() = _Loading;
 
-final class ProductDetailsSuccess extends ProductDetailsState {
-  ProductDetailsEntity productDetailsEntity;
-  ProductDetailsSuccess(this.productDetailsEntity);
+  const factory ProductDetailsState.success({
+    required ProductDetailsEntity product,
+  }) = _Success;
+
+  const factory ProductDetailsState.failure({required String message}) =
+      _Failure;
 }
-
-final class ProductDetailsFailure extends ProductDetailsState {
-  final String error;
-  ProductDetailsFailure(this.error);
-}
-
-final class ProductDetailsLoading extends ProductDetailsState {}
