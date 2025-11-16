@@ -8,7 +8,8 @@ import '../repositories/product_repository.dart';
 
 @lazySingleton
 class GetProductsUseCase
-    extends UseCase<Future<ApiResult<ProductsResponseEntity>>, GetProductParams> {
+    extends
+        UseCase<Future<ApiResult<ProductsResponseEntity>>, GetProductParams> {
   final ProductRepository repository;
 
   GetProductsUseCase(this.repository);

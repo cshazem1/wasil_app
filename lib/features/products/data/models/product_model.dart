@@ -4,6 +4,7 @@ import 'package:wasil_task/features/products/domain/entites/product_details_enti
 import '../../domain/entites/product_entity.dart';
 
 part 'product_model.g.dart';
+
 @JsonSerializable()
 class ProductModel {
   int? id;
@@ -59,37 +60,37 @@ class ProductModel {
 
   toEntity() {
     return ProductEntity(
-      id: id??0,
-      description:
-        description??'',
-      title: title??'', price:price??0 , stock: stock??0, image: images?[0]??'',
-
+      id: id ?? 0,
+      description: description ?? '',
+      title: title ?? '',
+      price: price ?? 0,
+      stock: stock ?? 0,
+      image: images?[0] ?? '',
     );
   }
 
   ProductDetailsEntity toProductDetailsEntity() {
-  return  ProductDetailsEntity(
-      id: id??0,
-      description:
-        description??'',
-      title: title??'', price:price??0 , stock: stock??0,
-      images: images??[],
+    return ProductDetailsEntity(
+      id: id ?? 0,
+      description: description ?? '',
+      title: title ?? '',
+      price: price ?? 0,
+      stock: stock ?? 0,
+      images: images ?? [],
 
-      thumbnail: thumbnail??'',
-      availabilityStatus: availabilityStatus??'',
-      returnPolicy: returnPolicy??'',
-      warrantyInformation: warrantyInformation??'',
-      shippingInformation: shippingInformation??'',
-      brand: brand??'',
-      discountPercentage: discountPercentage?.toDouble()??0,
-      rating: rating??0,
+      thumbnail: thumbnail ?? '',
+      availabilityStatus: availabilityStatus ?? '',
+      returnPolicy: returnPolicy ?? '',
+      warrantyInformation: warrantyInformation ?? '',
+      shippingInformation: shippingInformation ?? '',
+      brand: brand ?? '',
+      discountPercentage: discountPercentage?.toDouble() ?? 0,
+      rating: rating ?? 0,
     );
   }
-
 }
 
 @JsonSerializable()
-
 class Meta {
   String? createdAt;
   String? updatedAt;
@@ -102,7 +103,6 @@ class Meta {
 }
 
 @JsonSerializable()
-
 class Dimensions {
   num? width;
   num? height;
@@ -113,27 +113,21 @@ class Dimensions {
   factory Dimensions.fromJson(Map<String, dynamic> json) =>
       _$DimensionsFromJson(json);
 }
-@JsonSerializable()
 
+@JsonSerializable()
 class ProductsModel {
   List<ProductModel>? products;
   int? total;
   int? skip;
   int? limit;
 
-  ProductsModel({
-    this.products,
-    this.total,
-    this.skip,
-    this.limit,
-  });
+  ProductsModel({this.products, this.total, this.skip, this.limit});
 
   factory ProductsModel.fromJson(Map<String, dynamic> json) =>
       _$ProductsModelFromJson(json);
 }
 
 @JsonSerializable()
-
 class Reviews {
   Reviews({
     this.rating,
@@ -149,5 +143,6 @@ class Reviews {
   String? reviewerName;
   String? reviewerEmail;
 
-  factory Reviews.fromJson(Map<String, dynamic> json) => _$ReviewsFromJson(json);
+  factory Reviews.fromJson(Map<String, dynamic> json) =>
+      _$ReviewsFromJson(json);
 }

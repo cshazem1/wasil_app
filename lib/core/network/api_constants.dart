@@ -4,6 +4,7 @@ abstract class ApiConstants {
   static String categories(String name) => 'products/categories/$name';
   static const String search = 'products/search';
 }
+
 class ApiErrors {
   static const String badRequestError = "badRequestError";
   static const String noContent = "noContent";

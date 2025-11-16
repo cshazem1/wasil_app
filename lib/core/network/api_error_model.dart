@@ -8,11 +8,7 @@ class ApiErrorModel {
   @JsonKey(name: 'data')
   final dynamic errors;
 
-  ApiErrorModel({
-    this.message,
-    this.code,
-    this.errors,
-  });
+  ApiErrorModel({this.message, this.code, this.errors});
 
   factory ApiErrorModel.fromJson(Map<String, dynamic> json) =>
       _$ApiErrorModelFromJson(json);
@@ -27,11 +23,12 @@ class ApiErrorModel {
 
     // TODO : explain this new update
     if (errors is Map<String, dynamic>) {
-      final errorMessage =
-      (errors as Map<String, dynamic>).entries.map((entry) {
-        final value = entry.value;
-        return "${value.join(',')}";
-      }).join('\n');
+      final errorMessage = (errors as Map<String, dynamic>).entries
+          .map((entry) {
+            final value = entry.value;
+            return "${value.join(',')}";
+          })
+          .join('\n');
 
       return errorMessage;
     } else if (errors is List) {

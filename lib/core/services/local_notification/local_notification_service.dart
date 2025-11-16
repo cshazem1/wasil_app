@@ -1,21 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:wasil_task/core/injectable/get_it.dart';
-
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static final StreamController<NotificationResponse> streamController =
-  StreamController<NotificationResponse>.broadcast();
+      StreamController<NotificationResponse>.broadcast();
 
   /// Called when the user taps the notification
   static void onTap(NotificationResponse notificationResponse) {
@@ -25,12 +21,14 @@ class LocalNotificationService {
   /// Initialization for Android & iOS
   static Future<void> init() async {
     const AndroidInitializationSettings androidInit =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const DarwinInitializationSettings iosInit = DarwinInitializationSettings();
 
-    const InitializationSettings settings =
-    InitializationSettings(android: androidInit, iOS: iosInit);
+    const InitializationSettings settings = InitializationSettings(
+      android: androidInit,
+      iOS: iosInit,
+    );
 
     await flutterLocalNotificationsPlugin.initialize(
       settings,
@@ -47,8 +45,10 @@ class LocalNotificationService {
       BigPictureStyleInformation? bigPictureStyleInformation;
 
       if (imageUrl.isNotEmpty) {
-        final String filePath =
-        await _downloadAndSaveFile(imageUrl, 'bigPicture.jpg');
+        final String filePath = await _downloadAndSaveFile(
+          imageUrl,
+          'bigPicture.jpg',
+        );
 
         bigPictureStyleInformation = BigPictureStyleInformation(
           FilePathAndroidBitmap(filePath),
@@ -82,7 +82,9 @@ class LocalNotificationService {
 
   /// Helper: download image using Dio and save locally
   static Future<String> _downloadAndSaveFile(
-      String url, String fileName) async {
+    String url,
+    String fileName,
+  ) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String filePath = '${directory.path}/$fileName';
 

@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 class DioInterceptor extends Interceptor {
   @override
   void onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     // final lang = CacheHelper.lang;
     // final token = await CacheHelper.token;
     //

@@ -9,6 +9,7 @@ abstract class ApiServiceModule {
   ProductApiService getProductApiService(Dio dio) {
     return ProductApiService(dio);
   }
+
   @lazySingleton
   PrettyDioLogger getPrettyDioLogger() {
     return PrettyDioLogger(

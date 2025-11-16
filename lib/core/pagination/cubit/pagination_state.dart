@@ -1,6 +1,5 @@
 part of 'pagination_cubit.dart';
 
-
 @freezed
 class PaginationState<T> with _$PaginationState<T> {
   const factory PaginationState.initial() = _Initial<T>;
@@ -17,7 +16,5 @@ class PaginationState<T> with _$PaginationState<T> {
     required bool hasMore,
   }) = LoadingMore<T>;
 
-  const factory PaginationState.error({
-    required String message,
-  }) = Error<T>;
+  const factory PaginationState.error({required String message}) = Error<T>;
 }

@@ -37,17 +37,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Product Details'),
-      ),
+      appBar: AppBar(title: const Text('Product Details')),
       body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
           return state.when(
             initial: () => const SizedBox.shrink(),
 
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            loading: () => const Center(child: CircularProgressIndicator()),
 
             success: (product) => Column(
               children: [
@@ -65,7 +61,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Expanded(
                                 child: PageView.builder(
                                   controller: _pageController,
-                                  itemCount: product.images?.length ?? 0,
+                                  itemCount: product.images.length,
                                   onPageChanged: (index) {
                                     setState(() {
                                       _currentPage = index;
@@ -75,40 +71,47 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     return ClipRRect(
                                       borderRadius: BorderRadius.circular(12.r),
                                       child: Image.network(
-                                        product.images![index],
+                                        product.images[index],
                                         fit: BoxFit.cover,
                                         width: double.infinity,
-                                        errorBuilder: (context, error, stackTrace) {
-                                          return const Center(
-                                            child: Icon(
-                                              Icons.broken_image,
-                                              size: 60,
-                                            ),
-                                          );
-                                        },
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                              return const Center(
+                                                child: Icon(
+                                                  Icons.broken_image,
+                                                  size: 60,
+                                                ),
+                                              );
+                                            },
                                       ),
                                     );
                                   },
                                 ),
                               ),
                               SizedBox(height: 10.h),
-                              if (product.images != null && product.images!.isNotEmpty)
+                              if (product.images.isNotEmpty)
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: List.generate(
-                                    product.images!.length,
-                                        (index) {
+                                    product.images.length,
+                                    (index) {
                                       bool isActive = _currentPage == index;
                                       return AnimatedContainer(
-                                        duration: const Duration(milliseconds: 300),
-                                        margin: EdgeInsets.symmetric(horizontal: 4.w),
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
+                                        margin: EdgeInsets.symmetric(
+                                          horizontal: 4.w,
+                                        ),
                                         width: isActive ? 12.w : 8.w,
                                         height: 8.h,
                                         decoration: BoxDecoration(
                                           color: isActive
                                               ? AppColors.primary
                                               : Colors.grey.shade400,
-                                          borderRadius: BorderRadius.circular(4.r),
+                                          borderRadius: BorderRadius.circular(
+                                            4.r,
+                                          ),
                                         ),
                                       );
                                     },
@@ -119,71 +122,75 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         SizedBox(height: 16.h),
 
-                        // ====== Product Info ======
                         Text(
-                          product.title ?? 'No Title',
+                          product.title,
                           style: AppTextStyles.title.copyWith(fontSize: 22.sp),
                         ),
                         SizedBox(height: 4.h),
 
                         Text(
-                          product.brand ?? 'No Brand',
-                          style: AppTextStyles.subtitle.copyWith(fontSize: 16.sp),
+                          product.brand,
+                          style: AppTextStyles.subtitle.copyWith(
+                            fontSize: 16.sp,
+                          ),
                         ),
                         SizedBox(height: 12.h),
 
                         Row(
                           children: [
                             Text(
-                              '\$${product.price?.toStringAsFixed(2) ?? '0.00'}',
-                              style: AppTextStyles.price.copyWith(fontSize: 20.sp),
+                              '\$${product.price.toStringAsFixed(2)}',
+                              style: AppTextStyles.price.copyWith(
+                                fontSize: 20.sp,
+                              ),
                             ),
                             SizedBox(width: 8.w),
-                            if ((product.discountPercentage ?? 0) > 0)
+                            if ((product.discountPercentage) > 0)
                               Text(
-                                '-${product.discountPercentage?.toStringAsFixed(0)}%',
-                                style: AppTextStyles.discount.copyWith(fontSize: 16.sp),
+                                '-${product.discountPercentage.toStringAsFixed(0)}%',
+                                style: AppTextStyles.discount.copyWith(
+                                  fontSize: 16.sp,
+                                ),
                               ),
                           ],
                         ),
                         SizedBox(height: 8.h),
 
                         Text(
-                          'Rating: ${product.rating ?? 0} ⭐',
+                          'Rating: ${product.rating} ⭐',
                           style: AppTextStyles.info.copyWith(fontSize: 14.sp),
                         ),
                         Text(
-                          'Stock: ${product.stock ?? 0}',
+                          'Stock: ${product.stock}',
                           style: AppTextStyles.info.copyWith(fontSize: 14.sp),
                         ),
                         SizedBox(height: 12.h),
 
                         Text(
                           'Description',
-                          style: AppTextStyles.sectionTitle.copyWith(fontSize: 18.sp),
+                          style: AppTextStyles.sectionTitle.copyWith(
+                            fontSize: 18.sp,
+                          ),
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          product.description ?? 'No description available',
+                          product.description,
                           style: AppTextStyles.body.copyWith(fontSize: 16.sp),
                         ),
                         SizedBox(height: 16.h),
 
-                        if (product.shippingInformation != null)
-                          Text(
-                            'Shipping: ${product.shippingInformation}',
-                            style: AppTextStyles.info.copyWith(fontSize: 14.sp),
-                          ),
-                        if (product.warrantyInformation != null)
-                          Text(
-                            'Warranty: ${product.warrantyInformation}',
-                            style: AppTextStyles.info.copyWith(fontSize: 14.sp),
-                          ),
-                        if (product.returnPolicy != null)
-                          Text(
-                            'Return Policy: ${product.returnPolicy}',
-                            style: AppTextStyles.info.copyWith(fontSize: 14.sp),
-                          ),
+                        Text(
+                          'Shipping: ${product.shippingInformation}',
+                          style: AppTextStyles.info.copyWith(fontSize: 14.sp),
+                        ),
+                        Text(
+                          'Warranty: ${product.warrantyInformation}',
+                          style: AppTextStyles.info.copyWith(fontSize: 14.sp),
+                        ),
+                        Text(
+                          'Return Policy: ${product.returnPolicy}',
+                          style: AppTextStyles.info.copyWith(fontSize: 14.sp),
+                        ),
                         SizedBox(height: 16.h),
                       ],
                     ),
@@ -222,11 +229,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.error_outline,
-                    size: 60,
-                    color: Colors.red,
-                  ),
+                  const Icon(Icons.error_outline, size: 60, color: Colors.red),
                   SizedBox(height: 16.h),
                   Text(
                     message,
@@ -236,7 +239,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   SizedBox(height: 16.h),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<ProductDetailsCubit>().getProductDetails(widget.id);
+                      context.read<ProductDetailsCubit>().getProductDetails(
+                        widget.id,
+                      );
                     },
                     child: const Text('Retry'),
                   ),

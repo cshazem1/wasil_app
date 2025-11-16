@@ -8,8 +8,7 @@ import 'dio_interceptor.dart';
 @module
 abstract class DioFactory {
   @lazySingleton
-  Dio getDio( PrettyDioLogger prettyDioLogger, DioInterceptor dioInterceptor) {
-
+  Dio getDio(PrettyDioLogger prettyDioLogger, DioInterceptor dioInterceptor) {
     Duration timeOut = const Duration(seconds: 30);
 
     final dio = Dio();
@@ -17,14 +16,9 @@ abstract class DioFactory {
       ..options.connectTimeout = timeOut
       ..options.receiveTimeout = timeOut
       ..options.baseUrl = ApiConstants.baseUrl
-      ..options.headers = {
-        'Accept': 'application/json',
-      };
+      ..options.headers = {'Accept': 'application/json'};
 
-    dio.interceptors.addAll(
-     [prettyDioLogger,
-       dioInterceptor]
-    );
+    dio.interceptors.addAll([prettyDioLogger, dioInterceptor]);
 
     return dio;
   }

@@ -13,16 +13,17 @@ class PushNotificationService {
     log("firebase token   ${token ?? "no token"}");
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      LocalNotificationService.showBasicNotification(
-          message);
+      LocalNotificationService.showBasicNotification(message);
     });
   }
+
   @pragma('vm:entry-point')
   static Future<void> handleBackgroundMessage(RemoteMessage message) async {
     await Firebase.initializeApp();
     log("handleBackgroundMessage ${message.notification?.title}");
   }
 }
+
 /*
   1. permission
   2. fcm token
