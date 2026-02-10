@@ -1,4 +1,3 @@
-// features/products/presentation/cubit/product_cubit.dart
 import 'package:injectable/injectable.dart';
 import '../../../../../core/network/api_result.dart';
 import '../../../../../core/pagination/cubit/pagination_cubit.dart';

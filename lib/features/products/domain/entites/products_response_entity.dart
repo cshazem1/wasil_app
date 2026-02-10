@@ -1,4 +1,3 @@
-// domain/entities/products_response_entity.dart
 import 'package:wasil_task/features/products/domain/entites/product_entity.dart';
 
 class ProductsResponseEntity {

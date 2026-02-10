@@ -8,7 +8,7 @@ import '../../domain/use_case/login_usecase.dart';
 import '../cubit/auth_cubit.dart';
 import '../widgets/custom_text_field.dart';
 import '../../../../core/utils/validation.dart';
-import '../../../../core/routes/app_routes.dart'; // تأكد من وجود ده
+import '../../../../core/routes/app_routes.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

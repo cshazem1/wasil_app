@@ -1,4 +1,3 @@
-// domain/use_cases/get_products_usecase.dart
 import 'package:injectable/injectable.dart';
 import '../../../../core/network/api_result.dart';
 import '../../../../core/usecase.dart';
